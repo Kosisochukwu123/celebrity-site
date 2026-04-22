@@ -11,31 +11,27 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://celebrity-site-rho.vercel.app",
-  "https://ecommerce-2-87o9.onrender.com"
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  }),
-);
-
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: [
+      "http://localhost:5173",
+      "https://celebrity-site-rho.vercel.app",
+      "https://ecommerce-2-87o9.onrender.com",
+    ],
     credentials: true,
   },
 });
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://celebrity-site-rho.vercel.app",
+      "https://ecommerce-2-87o9.onrender.com",
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
