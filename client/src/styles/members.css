@@ -1,0 +1,226 @@
+/* ============================================================
+   MEMBERS.CSS — Members area page
+   ============================================================ */
+
+.members-page {
+  min-height: 100vh;
+  background: #1A1714;
+  color: #F5F0E8;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.members-header {
+  background: linear-gradient(135deg, #1A1714 0%, #2E2926 50%, #3D1010 100%);
+  padding: 8rem 4rem 4rem;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.members-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(192,21,42,0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.members-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C0152A;
+  margin-bottom: 0.6rem;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.members-greeting {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.members-sub {
+  font-family: 'Barlow', sans-serif;
+  color: rgba(245,240,232,0.38);
+  font-size: 0.92rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Membership status banners */
+.members-status-inactive {
+  margin-top: 2rem;
+  padding: 1.2rem 1.5rem;
+  background: rgba(192,21,42,0.08);
+  border: 1px solid rgba(192,21,42,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 640px;
+  position: relative;
+  z-index: 1;
+}
+
+.members-status-inactive-text {}
+.members-status-inactive-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C0152A;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.members-status-inactive-desc {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(245,240,232,0.5);
+}
+
+.members-status-inactive-btn {
+  padding: 0.6rem 1.4rem;
+  background: #C0152A;
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.members-status-inactive-btn:hover { background: #8B0000; }
+
+.members-status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1rem;
+  background: rgba(29,158,117,0.08);
+  border: 1px solid rgba(29,158,117,0.22);
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.members-status-active-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1D9E75;
+  flex-shrink: 0;
+}
+
+.members-status-active-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1D9E75;
+}
+
+/* ── CARDS GRID ─────────────────────────────────────────── */
+.members-grid {
+  padding: 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.members-card {
+  background: #2E2A26;
+  border: 1px solid rgba(245,240,232,0.07);
+  padding: 2rem;
+  position: relative;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.members-card:hover {
+  border-color: rgba(245,240,232,0.14);
+  transform: translateY(-3px);
+}
+
+.members-card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  background: rgba(245,240,232,0.07);
+  color: rgba(245,240,232,0.35);
+  border: 1px solid rgba(245,240,232,0.08);
+}
+
+.members-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F5F0E8;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+
+.members-card-body {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.88rem;
+  color: rgba(245,240,232,0.48);
+  line-height: 1.72;
+}
+
+.members-card-btn {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 0.6rem 1.4rem;
+  background: #C0152A;
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.members-card-btn:hover { background: #8B0000; transform: translateY(-1px); }
+.members-card-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  background: #2E2A26;
+  border: 1px solid rgba(245,240,232,0.1);
+  color: rgba(245,240,232,0.35);
+  transform: none;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .members-header { padding: 7rem 2rem 3rem; }
+  .members-grid   { padding: 2.5rem 2rem; }
+  .members-status-inactive { flex-direction: column; align-items: flex-start; }
+  .members-status-inactive-btn { width: 100%; text-align: center; padding: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .members-header { padding: 6rem 1.5rem 2.5rem; }
+  .members-grid   { padding: 2rem 1.5rem; grid-template-columns: 1fr; }
+  .members-card   { padding: 1.5rem; }
+  .members-greeting { font-size: 2rem; }
+}

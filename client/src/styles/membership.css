@@ -1,0 +1,681 @@
+/* ============================================================
+   MEMBERSHIP PAGE — membership.css
+   Luxury dark/gold aesthetic
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ── CSS VARIABLES ───────────────────────────────────────── */
+:root {
+  --gold-light:     #E8C97A;
+  --gold-mid:       #C9A84C;
+  --gold-dark:      #8B6914;
+  --gold-shine:     #F5E2A0;
+  --charcoal:       #0E0C09;
+  --dark-1:         #161310;
+  --dark-2:         #1E1A14;
+  --dark-3:         #27221A;
+  --dark-4:         #312B20;
+  --off-white:      #F2EDE4;
+  --muted:          rgba(242,237,228,0.45);
+  --muted-light:    rgba(242,237,228,0.2);
+  --muted-faint:    rgba(242,237,228,0.08);
+
+  /* Card tier colours */
+  --silver-1:       #C8C8C8;
+  --silver-2:       #8A8A8A;
+  --platinum-1:     #E8E8F0;
+  --platinum-2:     #9898B8;
+  --black-1:        #3A3020;
+  --black-2:        #1A1510;
+
+  --radius-card:    18px;
+  --radius-sm:      8px;
+  --transition:     0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── RESET ───────────────────────────────────────────────── */
+.membership-page *,
+.membership-page *::before,
+.membership-page *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── PAGE WRAPPER ────────────────────────────────────────── */
+.membership-page {
+  min-height: 100vh;
+  background: var(--charcoal);
+  color: var(--off-white);
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── PAGE HEADER ─────────────────────────────────────────── */
+.mem-header {
+  padding: 6rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.mem-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 4rem;
+  background: linear-gradient(to bottom, transparent, var(--gold-mid));
+}
+
+.mem-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.mem-eyebrow::before,
+.mem-eyebrow::after {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--gold-dark);
+}
+
+.mem-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--off-white);
+  margin-bottom: 1rem;
+}
+
+.mem-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.mem-subtitle {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ── CAROUSEL SECTION ────────────────────────────────────── */
+.mem-carousel-section {
+  position: relative;
+  padding: 3rem 0 2rem;
+}
+
+/* Track — holds all three cards side by side */
+.mem-carousel-track-outer {
+  overflow: hidden;
+  position: relative;
+}
+
+.mem-carousel-track {
+  display: flex;
+  transition: transform var(--transition);
+  will-change: transform;
+  padding: 1.5rem 0 2rem;
+}
+
+/* ── MEMBERSHIP CARD ─────────────────────────────────────── */
+.mem-card-slide {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+.mem-card {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1.65 / 1;
+  border-radius: var(--radius-card);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mem-card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Card inner content layout */
+.mem-card-inner {
+  position: absolute;
+  inset: 0;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Decorative diagonal lines (like the image's background pattern) */
+.mem-card-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      currentColor 0,
+      currentColor 1px,
+      transparent 0,
+      transparent 50%
+    );
+  background-size: 18px 18px;
+}
+
+/* CARD: SILVER tier */
+.mem-card--silver {
+  background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 50%, #0F0F0F 100%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(200,200,200,0.15);
+  border: 1px solid rgba(200,200,200,0.15);
+}
+.mem-card--silver .mem-card-pattern { color: var(--silver-1); }
+.mem-card--silver .mem-card-shine {
+  background: linear-gradient(105deg, transparent 30%, rgba(200,200,200,0.08) 50%, transparent 70%);
+}
+.mem-card--silver .mem-card-tier-name { color: var(--silver-1); }
+.mem-card--silver .mem-card-badge-hex { stroke: var(--silver-1); fill: rgba(200,200,200,0.08); }
+.mem-card--silver .mem-card-badge-stars { fill: var(--silver-1); }
+.mem-card--silver .mem-card-badge-letter { fill: var(--silver-1); }
+.mem-card--silver .mem-card-watermark { color: rgba(200,200,200,0.06); }
+.mem-card--silver .mem-card-price-val { color: var(--silver-1); }
+.mem-card--silver .mem-card-price-period { color: rgba(200,200,200,0.5); }
+
+/* CARD: GOLD tier */
+.mem-card--gold {
+  background: linear-gradient(135deg, #2C2210 0%, #1A1408 50%, #0E0B05 100%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.25), inset 0 1px 0 rgba(232,201,122,0.2);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.mem-card--gold .mem-card-pattern { color: var(--gold-mid); }
+.mem-card--gold .mem-card-shine {
+  background: linear-gradient(105deg, transparent 30%, rgba(232,201,122,0.1) 50%, transparent 70%);
+}
+.mem-card--gold .mem-card-tier-name { color: var(--gold-light); }
+.mem-card--gold .mem-card-badge-hex { stroke: var(--gold-light); fill: rgba(201,168,76,0.12); }
+.mem-card--gold .mem-card-badge-stars { fill: var(--gold-light); }
+.mem-card--gold .mem-card-badge-letter { fill: var(--gold-light); }
+.mem-card--gold .mem-card-watermark { color: rgba(201,168,76,0.06); }
+.mem-card--gold .mem-card-price-val { color: var(--gold-light); }
+.mem-card--gold .mem-card-price-period { color: rgba(201,168,76,0.5); }
+
+/* CARD: BLACK (Elite) tier */
+.mem-card--black {
+  background: linear-gradient(135deg, #1C1508 0%, #0E0B05 50%, #080604 100%);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.75), 0 0 0 1px rgba(232,201,122,0.35), inset 0 1px 0 rgba(245,226,160,0.25);
+  border: 1px solid rgba(232,201,122,0.3);
+}
+.mem-card--black .mem-card-pattern { color: var(--gold-shine); }
+.mem-card--black .mem-card-shine {
+  background: linear-gradient(105deg, transparent 25%, rgba(245,226,160,0.15) 50%, transparent 75%);
+}
+.mem-card--black .mem-card-tier-name { color: var(--gold-shine); }
+.mem-card--black .mem-card-badge-hex { stroke: var(--gold-shine); fill: rgba(245,226,160,0.15); }
+.mem-card--black .mem-card-badge-stars { fill: var(--gold-shine); }
+.mem-card--black .mem-card-badge-letter { fill: var(--gold-shine); }
+.mem-card--black .mem-card-watermark { color: rgba(232,201,122,0.07); }
+.mem-card--black .mem-card-price-val { color: var(--gold-shine); }
+.mem-card--black .mem-card-price-period { color: rgba(245,226,160,0.5); }
+
+/* Shine overlay */
+.mem-card-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Card top row */
+.mem-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.mem-card-tier-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.mem-card-tier-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+/* Badge SVG */
+.mem-card-badge {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+/* Watermark text in background */
+.mem-card-watermark {
+  position: absolute;
+  bottom: -0.5rem;
+  left: -0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Card bottom row */
+.mem-card-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.mem-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.mem-card-price-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mem-card-price-period {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mem-card-chip {
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ── CAROUSEL DOTS ───────────────────────────────────────── */
+.mem-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.mem-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted-faint);
+  border: 1px solid rgba(201,168,76,0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mem-dot.active {
+  width: 24px;
+  border-radius: 3px;
+  background: var(--gold-mid);
+  border-color: var(--gold-mid);
+}
+
+/* ── CAROUSEL ARROWS ─────────────────────────────────────── */
+.mem-arrows {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.mem-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.25);
+  background: var(--muted-faint);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 1rem;
+}
+
+.mem-arrow:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold-mid);
+}
+
+.mem-arrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* ── TIER LABEL BAR ──────────────────────────────────────── */
+.mem-tier-label {
+  text-align: center;
+  padding: 1.5rem 2rem 0;
+}
+
+.mem-tier-label-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--off-white);
+  margin-bottom: 0.3rem;
+}
+
+.mem-tier-label-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+  padding: 0.3rem 1rem;
+  border: 1px solid rgba(201,168,76,0.2);
+  margin-bottom: 0.6rem;
+}
+
+.mem-tier-label-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 340px;
+  margin: 0.5rem auto 0;
+}
+
+/* ── DIVIDER ─────────────────────────────────────────────── */
+.mem-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem 2rem 1.5rem;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.mem-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent);
+}
+
+.mem-divider-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+/* ── BENEFITS GRID ───────────────────────────────────────── */
+.mem-benefits {
+  padding: 0 1.5rem 2rem;
+}
+
+.mem-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.mem-benefit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.2rem 0.6rem 1rem;
+  background: var(--dark-2);
+  border: 1px solid var(--muted-faint);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.25s, background 0.25s;
+  cursor: default;
+  position: relative;
+}
+
+.mem-benefit-item:hover {
+  background: var(--dark-3);
+  border-color: rgba(201,168,76,0.18);
+}
+
+/* "Free" / "Exclusive" badge on benefit */
+.mem-benefit-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.5rem;
+  border-radius: 0 var(--radius-sm) 0 var(--radius-sm);
+  line-height: 1.4;
+}
+
+.mem-benefit-badge--free {
+  background: var(--gold-dark);
+  color: var(--off-white);
+}
+
+.mem-benefit-badge--excl {
+  background: #C0152A;
+  color: #fff;
+}
+
+/* Benefit icon circle */
+.mem-benefit-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--muted-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+  background: var(--dark-3);
+  transition: border-color 0.25s;
+}
+
+.mem-benefit-item:hover .mem-benefit-icon {
+  border-color: rgba(201,168,76,0.25);
+}
+
+.mem-benefit-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mem-benefit-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--off-white);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+
+.mem-benefit-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── CTA BUTTON SECTION ──────────────────────────────────── */
+.mem-cta-section {
+  padding: 1rem 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mem-cta-btn {
+  width: 100%;
+  max-width: 360px;
+  padding: 1rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mem-cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.mem-cta-btn:hover::before {
+  transform: translateX(100%);
+}
+
+.mem-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.mem-cta-btn--silver {
+  background: linear-gradient(135deg, #9A9A9A, #C8C8C8, #8A8A8A);
+  color: #0E0C09;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.mem-cta-btn--gold {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  color: #0E0C09;
+  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+}
+
+.mem-cta-btn--black {
+  background: linear-gradient(135deg, var(--gold-shine), var(--gold-mid), var(--gold-shine));
+  color: #0E0C09;
+  box-shadow: 0 4px 28px rgba(232,201,122,0.3);
+}
+
+.mem-cta-note {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ── COMPARE TABLE ───────────────────────────────────────── */
+.mem-compare {
+  padding: 1rem 1.5rem 3rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.mem-compare-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--off-white);
+  margin-bottom: 1.2rem;
+}
+
+.mem-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mem-compare-table th {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+  color: var(--muted);
+  border-bottom: 1px solid var(--muted-faint);
+}
+
+.mem-compare-table th:first-child { text-align: left; }
+
+.mem-compare-table td {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--muted-faint);
+  color: var(--muted);
+}
+
+.mem-compare-table td:first-child {
+  text-align: left;
+  color: var(--off-white);
+  font-weight: 500;
+}
+
+.mem-compare-table tr:last-child td { border-bottom: none; }
+
+.mem-check { color: var(--gold-mid); font-size: 0.85rem; }
+.mem-cross  { color: rgba(242,237,228,0.2); font-size: 0.85rem; }
+
+/* column header gold highlight */
+.mem-compare-table th.active-col {
+  color: var(--gold-light);
+}
+
+.mem-compare-table td.active-col {
+  color: var(--off-white);
+}
