@@ -18,6 +18,7 @@ export default function AdminChat() {
   const [reply, setReply]                 = useState('');
   const [connected, setConnected]         = useState(false);
   const messagesEndRef = useRef(null);
+  const API = import.meta.env.VITE_API_URL;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

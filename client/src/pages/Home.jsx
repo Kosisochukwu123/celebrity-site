@@ -6,9 +6,10 @@ import '../styles/home.css';
 export default function Home() {
   const [content, setContent] = useState({});
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios.get('/api/content').then(res => {
+    axios.get(`${API}/api/content`).then(res => {
       const map = {};
       res.data.forEach(c => { map[c.section] = c; });
       setContent(map);

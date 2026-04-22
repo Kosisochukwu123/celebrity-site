@@ -12,6 +12,8 @@ const SECTIONS = [
   { id: 'quote',   label: 'Quote Section',              fields: ['body','subheading'] },
 ];
 
+
+
 export default function AdminPanel() {
   const [tab, setTab] = useState('content');
   const [section, setSection] = useState(SECTIONS[0].id);
@@ -24,12 +26,14 @@ export default function AdminPanel() {
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const API = import.meta.env.VITE_API_URL;
+
   const currentSection = SECTIONS.find(s => s.id === section);
 
   useEffect(() => {
     setMsg({ type: '', text: '' });
     setImage(null); setPreview(null);
-    axios.get(`/api/content/${section}`).then(res => {
+    axios.get(`${API}/api/content/${section}`).then(res => {
       setForm({ heading: res.data.heading || '', subheading: res.data.subheading || '', body: res.data.body || '' });
       if (res.data.imageUrl) setPreview(res.data.imageUrl);
     }).catch(() => setForm({ heading: '', subheading: '', body: '' }));
@@ -37,7 +41,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     if (tab === 'codes') {
-      axios.get('/api/admin/codes').then(res => setCodes(res.data)).catch(() => {});
+      axios.get(`${API}/api/admin/codes`).then(res => setCodes(res.data)).catch(() => {});
     }
   }, [tab]);
 
@@ -48,7 +52,7 @@ export default function AdminPanel() {
       const data = new FormData();
       Object.entries(form).forEach(([k, v]) => data.append(k, v));
       if (image) data.append('image', image);
-      await axios.put(`/api/admin/content/${section}`, data, { headers: { 'Content-Type': 'multipart/form-data' } });
+      await axios.put(`${API}/api/admin/content/${section}`, data, { headers: { 'Content-Type': 'multipart/form-data' } });
       setMsg({ type: 'success', text: 'Changes saved successfully.' });
     } catch {
       setMsg({ type: 'error', text: 'Failed to save. Please try again.' });
@@ -58,8 +62,8 @@ export default function AdminPanel() {
   const generateCodes = async () => {
     setGenerating(true);
     try {
-      await axios.post('/api/admin/codes', { count: codeCount });
-      const res = await axios.get('/api/admin/codes');
+      await axios.post(`${API}/api/admin/codes`, { count: codeCount });
+      const res = await axios.get(`${API}/api/admin/codes`);
       setCodes(res.data);
     } finally { setGenerating(false); }
   };
