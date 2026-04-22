@@ -6,7 +6,7 @@ import '../styles/home.css';
 export default function Home() {
   const [content, setContent] = useState({});
   const navigate = useNavigate();
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     axios.get(`${API}/api/content`).then(res => {

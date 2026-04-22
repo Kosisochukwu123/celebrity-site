@@ -18,7 +18,7 @@ export default function MembersArea() {
   const [membershipStatus, setMembershipStatus] = useState(null);
   const [activating, setActivating] = useState(false);
   const navigate = useNavigate();
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     axios.get(`${API}/api/membership/status`).then(res => setMembershipStatus(res.data)).catch(() => {});

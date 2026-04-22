@@ -26,7 +26,7 @@ export default function AdminPanel() {
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_BACKEND_URL;
 
   const currentSection = SECTIONS.find(s => s.id === section);
 
