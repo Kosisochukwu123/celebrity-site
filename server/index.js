@@ -14,6 +14,7 @@ const server = http.createServer(app);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://celebrity-site-rho.vercel.app",
+  "https://ecommerce-2-87o9.onrender.com"
 ];
 
 app.use(

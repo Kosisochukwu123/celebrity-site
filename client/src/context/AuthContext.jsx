@@ -8,8 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const API = import.meta.env.VITE_BACKEND_URL;
 
-  console.log(API)
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
