@@ -37,7 +37,6 @@ app.options("*", cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// console.log("Auth routes:", authRoutes);
 
 // app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/auth", authRoutes );
