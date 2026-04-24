@@ -4,6 +4,8 @@ const User = require('../models/User.model');
 const MemberCode = require('../models/MemberCode.model');
 const { protect } = require('../middleware/auth.middleware');
 
+// console.log("AUTH ROUTES LOADED");
+
 const router = express.Router();
 
 const signToken = (id) =>

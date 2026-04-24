@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const authRoutes = require("./routes/auth.routes");
 
 dotenv.config();
 
@@ -15,8 +16,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://celebrity-site-rho.vercel.app",
-      "https://ecommerce-2-87o9.onrender.com",
+      "https://celebrity-site-rho.vercel.app"
     ],
     credentials: true,
   },
@@ -26,20 +26,29 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://celebrity-site-rho.vercel.app",
-      "https://ecommerce-2-87o9.onrender.com",
+      "https://celebrity-site-rho.vercel.app"
     ],
     credentials: true,
   }),
 );
+
+app.options("*", cors());
+
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/api/auth", require("./routes/auth.routes"));
+// console.log("Auth routes:", authRoutes);
+
+// app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/auth", authRoutes );
 app.use("/api/content", require("./routes/content.routes"));
 app.use("/api/membership", require("./routes/membership.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 app.use("/api/chat", require("./routes/chat.routes"));
+
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
 const Message = require("./models/Message.model");
 const User = require("./models/User.model");

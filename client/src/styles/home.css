@@ -722,3 +722,275 @@
   .site-footer      { padding: 1.5rem; }
   .site-footer-links { gap: 0.75rem; }
 }
+
+
+/* ══════════════════════════════════════════════════════════
+   CAUSE CARD — IMAGE + REDESIGNED LAYOUT
+   (appended to home.css)
+══════════════════════════════════════════════════════════ */
+
+/* Override the old card to accommodate image on top */
+.cause-card {
+  background: #2E2A26;
+  border: 1px solid rgba(245,240,232,0.07);
+  padding: 0;                  /* remove old padding — content div handles it */
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.cause-card:hover {
+  border-color: rgba(245,240,232,0.18);
+  transform: translateY(-6px);
+}
+.cause-card:hover::before { transform: scaleX(1); }
+
+/* Image container */
+.cause-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  background: #141210;
+  flex-shrink: 0;
+}
+
+.cause-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.cause-card:hover .cause-card-image img { transform: scale(1.04); }
+
+/* Gradient overlay on image */
+.cause-card-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(46,42,38,0.85) 100%);
+  pointer-events: none;
+}
+
+/* Placeholder when no image uploaded */
+.cause-card-image-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1A1714 0%, #2a1515 50%, #1A1714 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cause-card-image-placeholder span {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(192,21,42,0.12);
+  line-height: 1;
+  user-select: none;
+}
+
+/* Content below image */
+.cause-card-content {
+  padding: 1.8rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cause-card-num-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C0152A;
+  margin-bottom: 0.6rem;
+}
+
+/* Override old card title — remove margin from old bar */
+.cause-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+  color: #F5F0E8;
+}
+
+.cause-card-body {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.52);
+  flex: 1;
+}
+
+.cause-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C0152A;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: gap 0.2s, letter-spacing 0.2s;
+  align-self: flex-start;
+}
+.cause-card-link:hover { gap: 0.7rem; letter-spacing: 0.22em; }
+
+/* Hide the old bar — not needed with new image layout */
+.cause-card-bar { display: none; }
+.cause-card-number { display: none; }
+
+/* ══════════════════════════════════════════════════════════
+   CAUSE DETAIL MODAL
+══════════════════════════════════════════════════════════ */
+.cause-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(14,12,9,0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: backdropIn 0.25s ease;
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.cause-modal {
+  background: #2E2A26;
+  border: 1px solid rgba(245,240,232,0.1);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192,21,42,0.3) transparent;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.cause-modal::-webkit-scrollbar { width: 4px; }
+.cause-modal::-webkit-scrollbar-thumb { background: rgba(192,21,42,0.3); border-radius: 2px; }
+
+.cause-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(26,23,20,0.7);
+  border: 1px solid rgba(245,240,232,0.15);
+  color: rgba(245,240,232,0.6);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  backdrop-filter: blur(4px);
+}
+.cause-modal-close:hover { background: #C0152A; color: #fff; border-color: #C0152A; }
+
+/* Modal image */
+.cause-modal-image {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+.cause-modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Modal text body */
+.cause-modal-body {
+  padding: 2.5rem 2.5rem 2.5rem;
+}
+
+.cause-modal-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C0152A;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.cause-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #F5F0E8;
+  margin-bottom: 1.2rem;
+}
+
+.cause-modal-lead {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.65);
+  margin-bottom: 1.5rem;
+}
+
+.cause-modal-divider {
+  height: 1px;
+  background: rgba(245,240,232,0.08);
+  margin-bottom: 1.5rem;
+}
+
+.cause-modal-detail {
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: rgba(245,240,232,0.5);
+}
+
+/* ── MODAL RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 680px) {
+  .cause-modal-backdrop { padding: 0; align-items: flex-end; }
+  .cause-modal {
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
+    animation: modalInMobile 0.35s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  @keyframes modalInMobile {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+  .cause-modal-body { padding: 1.8rem 1.5rem 2rem; }
+}
+
+/* ── CAUSE CARD RESPONSIVE ───────────────────────────────── */
+@media (max-width: 860px) {
+  .causes-grid { grid-template-columns: 1fr; }
+  .cause-card-image { aspect-ratio: 21 / 9; }
+}
+
+@media (max-width: 480px) {
+  .cause-card-image { aspect-ratio: 16 / 9; }
+  .cause-card-content { padding: 1.4rem 1.5rem 1.8rem; }
+  .cause-card-title { font-size: 1.2rem; }
+}

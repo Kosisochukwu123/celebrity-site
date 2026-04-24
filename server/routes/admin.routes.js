@@ -42,42 +42,104 @@ const upload = multer({
 // All admin routes require auth + admin role
 router.use(protect, adminOnly);
 
-// PUT /api/admin/content/:section
-router.put("/content/:section", (req, res) => {
-  upload.single("image")(req, res, async (multerErr) => {
-    if (multerErr instanceof multer.MulterError) {
-      return res
-        .status(400)
-        .json({ message: `Upload error: ${multerErr.message}` });
-    }
-    if (multerErr) {
-      return res.status(400).json({ message: multerErr.message });
-    }
 
+// ── PUT /api/admin/content/:section  (cover image + text) ─
+router.put('/content/:section', (req, res) => {
+  upload.single('image')(req, res, async (err) => {
+    if (err instanceof multer.MulterError) return res.status(400).json({ message: err.message });
+    if (err) return res.status(400).json({ message: err.message });
     try {
       const update = {};
-      if (req.body.heading !== undefined) update.heading = req.body.heading;
-      if (req.body.subheading !== undefined)
-        update.subheading = req.body.subheading;
-      if (req.body.body !== undefined) update.body = req.body.body;
-      if (req.body.stats) update.stats = JSON.parse(req.body.stats);
-      if (req.file) update.imageUrl = `/uploads/${req.file.filename}`;
+      if (req.body.heading    !== undefined) update.heading    = req.body.heading;
+      if (req.body.subheading !== undefined) update.subheading = req.body.subheading;
+      if (req.body.body       !== undefined) update.body       = req.body.body;
+      if (req.body.stats)                    update.stats      = JSON.parse(req.body.stats);
+      if (req.file)                          update.imageUrl   = `/uploads/${req.file.filename}`;
 
       const content = await Content.findOneAndUpdate(
         { section: req.params.section },
         { $set: update },
-        { new: true, upsert: true },
+        { new: true, upsert: true }
       );
       res.json(content);
-    } catch (err) {
-      console.error("[admin/content] error:", err.message);
-      res.status(500).json({ message: err.message });
+    } catch (e) {
+      console.error('[admin/content]', e.message);
+      res.status(500).json({ message: e.message });
     }
   });
 });
 
-// POST /api/admin/codes
-router.post("/codes", async (req, res) => {
+// ── DELETE /api/admin/content/image/:section  (remove cover) ─
+router.delete('/content/image/:section', async (req, res) => {
+  try {
+    const doc = await Content.findOne({ section: req.params.section });
+    if (doc?.imageUrl) {
+      const fp = path.join(UPLOADS_DIR, path.basename(doc.imageUrl));
+      if (fs.existsSync(fp)) fs.unlinkSync(fp);
+    }
+    await Content.findOneAndUpdate({ section: req.params.section }, { $unset: { imageUrl: '' } });
+    res.json({ message: 'Cover image removed' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// ── POST /api/admin/content/:section/gallery  (add images) ─
+router.post('/content/:section/gallery', (req, res) => {
+  upload.array('images', 10)(req, res, async (err) => {
+    if (err instanceof multer.MulterError) return res.status(400).json({ message: err.message });
+    if (err) return res.status(400).json({ message: err.message });
+    if (!req.files?.length) return res.status(400).json({ message: 'No files received' });
+
+    try {
+      const newImages = req.files.map(f => ({
+        url:     `/uploads/${f.filename}`,
+        caption: '',
+      }));
+      const content = await Content.findOneAndUpdate(
+        { section: req.params.section },
+        { $push: { images: { $each: newImages } } },
+        { new: true, upsert: true }
+      );
+      res.json(content);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  });
+});
+
+// ── PATCH /api/admin/content/:section/gallery/:imageId  (edit caption) ─
+router.patch('/content/:section/gallery/:imageId', async (req, res) => {
+  try {
+    const content = await Content.findOneAndUpdate(
+      { section: req.params.section, 'images._id': req.params.imageId },
+      { $set: { 'images.$.caption': req.body.caption || '' } },
+      { new: true }
+    );
+    res.json(content);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// ── DELETE /api/admin/content/:section/gallery/:imageId  (remove one) ─
+router.delete('/content/:section/gallery/:imageId', async (req, res) => {
+  try {
+    const doc = await Content.findOne({ section: req.params.section });
+    if (!doc) return res.status(404).json({ message: 'Section not found' });
+
+    const img = doc.images.id(req.params.imageId);
+    if (img) {
+      const fp = path.join(UPLOADS_DIR, path.basename(img.url));
+      if (fs.existsSync(fp)) fs.unlinkSync(fp);
+    }
+
+    await Content.findOneAndUpdate(
+      { section: req.params.section },
+      { $pull: { images: { _id: req.params.imageId } } }
+    );
+    res.json({ message: 'Image deleted' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// ── POST /api/admin/codes ──────────────────────────────────
+router.post('/codes', async (req, res) => {
   try {
     const count = Math.min(Number(req.body.count) || 10, 200);
     const codes = Array.from({ length: count }, () => ({
@@ -85,39 +147,15 @@ router.post("/codes", async (req, res) => {
     }));
     const created = await MemberCode.insertMany(codes);
     res.status(201).json(created);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
-// GET /api/admin/codes
-router.get("/codes", async (req, res) => {
+// ── GET /api/admin/codes ───────────────────────────────────
+router.get('/codes', async (req, res) => {
   try {
-    const codes = await MemberCode.find()
-      .sort({ createdAt: -1 })
-      .populate("usedBy", "name email");
+    const codes = await MemberCode.find().sort({ createdAt: -1 }).populate('usedBy', 'name email');
     res.json(codes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// DELETE /api/admin/content/image/:section  (remove image from a section)
-router.delete("/content/image/:section", async (req, res) => {
-  try {
-    const doc = await Content.findOne({ section: req.params.section });
-    if (doc?.imageUrl) {
-      const filePath = path.join(UPLOADS_DIR, path.basename(doc.imageUrl));
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-    }
-    await Content.findOneAndUpdate(
-      { section: req.params.section },
-      { $unset: { imageUrl: "" } },
-    );
-    res.json({ message: "Image removed" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 module.exports = router;

@@ -1,0 +1,266 @@
+
+/* ============================================================
+   GALLERY-MANAGER.CSS — Admin cause gallery manager
+   ============================================================ */
+
+.gm-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── CAUSE TABS ──────────────────────────────────────────── */
+.gm-cause-tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.gm-cause-tab {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.2rem;
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  color: rgba(245,240,232,0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gm-cause-tab:hover { color: rgba(245,240,232,0.75); border-color: rgba(245,240,232,0.2); }
+.gm-cause-tab.active {
+  background: rgba(192,21,42,0.15);
+  border-color: rgba(192,21,42,0.4);
+  color: #F5F0E8;
+}
+
+/* ── DROP ZONE ───────────────────────────────────────────── */
+.gm-dropzone {
+  border: 2px dashed rgba(245,240,232,0.12);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: center;
+  background: rgba(245,240,232,0.02);
+}
+.gm-dropzone:hover,
+.gm-dropzone.drag-over {
+  border-color: rgba(192,21,42,0.5);
+  background: rgba(192,21,42,0.05);
+}
+.gm-dropzone.uploading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.gm-dropzone-icon {
+  color: rgba(245,240,232,0.3);
+  margin-bottom: 0.3rem;
+}
+
+.gm-dropzone-title {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(245,240,232,0.55);
+  font-weight: 500;
+}
+
+.gm-dropzone-hint {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.22);
+}
+
+/* Spinner */
+.gm-spinner {
+  width: 28px; height: 28px;
+  border: 2px solid rgba(245,240,232,0.15);
+  border-top-color: #C0152A;
+  border-radius: 50%;
+  animation: gmSpin 0.7s linear infinite;
+}
+@keyframes gmSpin { to { transform: rotate(360deg); } }
+
+/* ── STATUS MESSAGE ──────────────────────────────────────── */
+.gm-msg {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.82rem;
+  padding: 0.65rem 1rem;
+}
+.gm-msg--success {
+  background: rgba(29,158,117,0.08);
+  border: 1px solid rgba(29,158,117,0.2);
+  color: #1D9E75;
+}
+.gm-msg--error {
+  background: rgba(226,75,74,0.08);
+  border: 1px solid rgba(226,75,74,0.2);
+  color: #E24B4A;
+}
+
+/* ── COUNT ───────────────────────────────────────────────── */
+.gm-count {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.28);
+}
+
+.gm-loading {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(245,240,232,0.28);
+  font-style: italic;
+  padding: 1rem 0;
+}
+
+/* ── IMAGE GRID ──────────────────────────────────────────── */
+.gm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+/* ── GRID ITEM ───────────────────────────────────────────── */
+.gm-item {
+  display: flex;
+  flex-direction: column;
+  background: #2E2A26;
+  border: 1px solid rgba(245,240,232,0.07);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.gm-item:hover { border-color: rgba(245,240,232,0.15); }
+
+.gm-item-img-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #141210;
+}
+
+.gm-item-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.gm-item:hover .gm-item-img-wrap img { transform: scale(1.04); }
+
+/* Delete button */
+.gm-item-delete {
+  position: absolute;
+  top: 0.4rem; right: 0.4rem;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.65);
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+.gm-item:hover .gm-item-delete { opacity: 1; }
+.gm-item-delete:hover { background: rgba(192,21,42,0.8); color: #fff; border-color: transparent; }
+.gm-item-delete:disabled { background: rgba(0,0,0,0.4); cursor: not-allowed; }
+
+/* ── CAPTION ─────────────────────────────────────────────── */
+.gm-caption-display {
+  padding: 0.5rem 0.6rem;
+  cursor: text;
+  min-height: 32px;
+}
+
+.gm-caption-text {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.4;
+  display: block;
+}
+
+.gm-caption-empty {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(245,240,232,0.18);
+  font-style: italic;
+  display: block;
+  transition: color 0.2s;
+}
+.gm-caption-display:hover .gm-caption-empty { color: rgba(245,240,232,0.4); }
+
+.gm-caption-edit {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: rgba(245,240,232,0.03);
+  border-top: 1px solid rgba(245,240,232,0.06);
+}
+
+.gm-caption-input {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  background: rgba(245,240,232,0.06);
+  border: 1px solid rgba(245,240,232,0.15);
+  color: #F5F0E8;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.72rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.gm-caption-input:focus { border-color: rgba(245,240,232,0.3); }
+.gm-caption-input::placeholder { color: rgba(245,240,232,0.2); }
+
+.gm-caption-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.gm-caption-save,
+.gm-caption-cancel {
+  flex: 1;
+  padding: 0.3rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.gm-caption-save {
+  background: #C0152A;
+  color: #fff;
+}
+.gm-caption-save:hover { background: #8B0000; }
+
+.gm-caption-cancel {
+  background: rgba(245,240,232,0.06);
+  color: rgba(245,240,232,0.45);
+  border: 1px solid rgba(245,240,232,0.1);
+}
+.gm-caption-cancel:hover { background: rgba(245,240,232,0.1); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .gm-grid { grid-template-columns: repeat(2, 1fr); }
+  .gm-cause-tabs { gap: 0.3rem; }
+  .gm-cause-tab  { padding: 0.45rem 0.8rem; font-size: 0.68rem; }
+}
