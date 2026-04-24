@@ -11,6 +11,8 @@ function formatTime(dateStr) {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 export default function ChatWidget() {
   const { user } = useAuth();
   const [open, setOpen]         = useState(false);
@@ -36,7 +38,7 @@ export default function ChatWidget() {
     if (!token) return;
 
     // Load existing history
-    axios.get('/api/chat/history').then(res => {
+    axios.get(`${API}/api/chat/history`).then(res => {
       setMessages(res.data);
     }).catch(() => {});
 
@@ -44,7 +46,7 @@ export default function ChatWidget() {
     const nudgeTimer = setTimeout(() => setShowNudge(true), 2000);
 
     // Connect socket
-    socketInstance = io('http://localhost:5000', {
+    socketInstance = io(`${API}`, {
       auth: { token },
       transports: ['websocket'],
     });

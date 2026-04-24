@@ -183,7 +183,7 @@ export default function CausePage() {
   useEffect(() => {
     if (!cause) return;
     axios
-      .get(`/api/content/${cause.sectionId}`)
+      .get(`${API}/api/content/${cause.sectionId}`)
       .then((res) => setContent(res.data))
       .catch(() => setContent(null))
       .finally(() => setLoading(false));

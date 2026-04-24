@@ -13,12 +13,14 @@ const CARDS = [
   { id: 'forum', routes: '/membership/forum',   title: 'Member Forum',          body: 'Connect with other members, share ideas, and participate in discussions on equality, child protection, and climate action.', cta: 'Join Discussions', soon: true },
 ];
 
+const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 export default function MembersArea() {
   const { user } = useAuth();
   const [membershipStatus, setMembershipStatus] = useState(null);
   const [activating, setActivating] = useState(false);
   const navigate = useNavigate();
-const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 
   useEffect(() => {
     axios.get(`${API}/api/membership/status`).then(res => setMembershipStatus(res.data)).catch(() => {});

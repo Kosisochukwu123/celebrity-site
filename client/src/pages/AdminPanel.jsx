@@ -37,6 +37,8 @@ const SECTIONS = [
   { id: "quote", label: "Quote Section", fields: ["body", "subheading"] },
 ];
 
+const API = import.meta.env.VITE_BACKEND_URL;
+
 export default function AdminPanel() {
   const [tab, setTab] = useState("content");
   const [section, setSection] = useState(SECTIONS[0].id);
@@ -48,8 +50,6 @@ export default function AdminPanel() {
   const [codeCount, setCodeCount] = useState(10);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  const API = import.meta.env.VITE_BACKEND_URL;
 
   const currentSection = SECTIONS.find((s) => s.id === section);
 

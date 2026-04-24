@@ -18,7 +18,7 @@ export default function AdminChat() {
   const [reply, setReply]                 = useState('');
   const [connected, setConnected]         = useState(false);
   const messagesEndRef = useRef(null);
-  const API = import.meta.env.VITE_BACKEND_URL;
+  const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -31,7 +31,7 @@ export default function AdminChat() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    adminSocket = io('http://localhost:5000', {
+    adminSocket = io( API, {
       auth: { token },
       transports: ['websocket'],
     });
@@ -80,7 +80,7 @@ export default function AdminChat() {
     });
 
     // Load conversations on mount
-    axios.get('/api/chat/conversations').then(res => setConversations(res.data)).catch(() => {});
+    axios.get(`${API}/api/chat/conversations`).then(res => setConversations(res.data)).catch(() => {});
 
     return () => { if (adminSocket) { adminSocket.disconnect(); adminSocket = null; } };
   }, []);
@@ -97,7 +97,7 @@ export default function AdminChat() {
 
     // Load history
     try {
-      const res = await axios.get(`/api/chat/conversation/${convoId}`);
+      const res = await axios.get(`${API}/api/chat/conversation/${convoId}`);
       setMessages(res.data);
       // Clear unread count
       setConversations(prev =>
