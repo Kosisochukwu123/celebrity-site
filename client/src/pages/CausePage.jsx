@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/cause-page.css";
 
-const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const API = import.meta.env.VITE_BACKEND_URL ;
 
-console.log("API:", API);
+
 
 const imgSrc = (url) =>
   !url ? null : url.startsWith("http") ? url : `${API}${url}`;

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../styles/gallery-manager.css";
 
-const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000" || "";
+const API = import.meta.env.VITE_BACKEND_URL;
 const imgSrc = (url) =>
   !url ? "" : url.startsWith("http") ? url : `${API}${url}`;
 

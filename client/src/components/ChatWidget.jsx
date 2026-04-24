@@ -11,7 +11,7 @@ function formatTime(dateStr) {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const API = import.meta.env.VITE_BACKEND_URL;
 
 export default function ChatWidget() {
   const { user } = useAuth();

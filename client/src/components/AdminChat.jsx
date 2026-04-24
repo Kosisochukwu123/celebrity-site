@@ -18,7 +18,7 @@ export default function AdminChat() {
   const [reply, setReply]                 = useState('');
   const [connected, setConnected]         = useState(false);
   const messagesEndRef = useRef(null);
-  const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const API = import.meta.env.VITE_BACKEND_URL;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
