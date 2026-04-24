@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AdminChat from "../components/AdminChat";
-import CauseGalleryManager from "../components/CauseGalleryManager";
-import "../styles/admin.css";
+import AdminChat from "../../components/AdminChat";
+import CauseGalleryManager from "../../components/CauseGalleryManager";
+import "../../styles/admin.css";
 
 const SECTIONS = [
   {

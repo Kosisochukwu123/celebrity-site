@@ -1,0 +1,846 @@
+/* ============================================================
+   EVENT-BOARD.CSS — Member events page with countdown
+   ============================================================ */
+
+.eb-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ── LOADING / EMPTY ─────────────────────────────────────── */
+.eb-loading {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.eb-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(245, 240, 232, 0.08);
+  border-top-color: #c0152a;
+  border-radius: 50%;
+  animation: ebSpin 0.75s linear infinite;
+}
+@keyframes ebSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.eb-loading p {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(245, 240, 232, 0.3);
+}
+
+.eb-empty {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.eb-empty h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.eb-empty p {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(245, 240, 232, 0.28);
+  max-width: 340px;
+  line-height: 1.65;
+}
+
+/* ── SVG ICONS ───────────────────────────────────────────── */
+.eb-icon {
+  width: 16px;
+  height: 16px;
+  stroke: var(--event-color, #c0152a);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* ── COUNTDOWN ───────────────────────────────────────────── */
+.eb-cd-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.eb-cd-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 48px;
+}
+
+.eb-cd-digits {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  min-width: 48px;
+  text-align: center;
+}
+
+.eb-cd-num {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1;
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.eb-cd-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.45);
+  margin-top: 0.3rem;
+}
+
+.eb-cd-sep {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 1rem;
+  line-height: 1;
+  align-self: flex-start;
+  margin-top: 0.3rem;
+}
+
+.eb-cd-live {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1d9e75;
+}
+
+.eb-cd-live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1d9e75;
+  animation: ebPulse 1.5s ease-in-out infinite;
+}
+@keyframes ebPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 158, 117, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(29, 158, 117, 0);
+  }
+}
+
+.eb-cd-over {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+}
+
+/* ── CHIPS ───────────────────────────────────────────────── */
+.eb-cat-chip,
+.eb-card-cat {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0e0c09;
+  padding: 0.25rem 0.7rem;
+  display: inline-block;
+}
+
+.eb-live-chip,
+.eb-card-live {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1d9e75;
+  background: rgba(29, 158, 117, 0.12);
+  border: 1px solid rgba(29, 158, 117, 0.3);
+  padding: 0.2rem 0.6rem;
+  display: inline-block;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FEATURED HERO EVENT
+══════════════════════════════════════════════════════════ */
+.eb-featured {
+  position: relative;
+  min-height: 460px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.3s ease;
+}
+.eb-featured:hover {
+  transform: translateY(-3px);
+}
+.eb-featured:hover .eb-featured-bg {
+  transform: scale(1.03);
+}
+
+.eb-featured-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 5s ease;
+}
+
+.eb-featured-bg--placeholder {
+  background: linear-gradient(
+    135deg,
+    #1a1714,
+    #2e2a26 40%,
+    var(--event-color) 100%
+  );
+  opacity: 0.6;
+}
+
+.eb-featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(14, 12, 9, 0.97) 0%,
+    rgba(14, 12, 9, 0.55) 50%,
+    rgba(14, 12, 9, 0.1) 100%
+  );
+}
+
+.eb-featured-content {
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem;
+  width: 100%;
+}
+
+.eb-featured-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.eb-featured-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.eb-featured-sub {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.55);
+  margin-bottom: 1.2rem;
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+.eb-featured-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.eb-featured-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(245, 240, 232, 0.55);
+}
+.eb-featured-meta-item svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--event-color);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  flex-shrink: 0;
+}
+
+.eb-featured-countdown {
+  margin-bottom: 2rem;
+}
+
+.eb-featured-countdown-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+  margin-bottom: 0.75rem;
+}
+
+/* Featured countdown bigger digits */
+.eb-featured-countdown .eb-cd-num {
+  font-size: 2.2rem;
+}
+.eb-featured-countdown .eb-cd-digits {
+  min-width: 64px;
+  padding: 0.4rem 0.8rem;
+}
+.eb-featured-countdown .eb-cd-label {
+  font-size: 0.6rem;
+}
+.eb-featured-countdown .eb-cd-sep {
+  font-size: 1.8rem;
+}
+
+.eb-featured-btn {
+  display: inline-block;
+  padding: 0.75rem 1.8rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0e0c09;
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.eb-featured-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ══════════════════════════════════════════════════════════
+   FILTERS
+══════════════════════════════════════════════════════════ */
+.eb-filters {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.eb-filter-btn {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: rgba(245, 240, 232, 0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.eb-filter-btn:hover {
+  border-color: rgba(245, 240, 232, 0.22);
+  color: rgba(245, 240, 232, 0.75);
+}
+.eb-filter-btn.active {
+  background: rgba(192, 21, 42, 0.15);
+  border-color: rgba(192, 21, 42, 0.4);
+  color: #f5f0e8;
+}
+
+/* ══════════════════════════════════════════════════════════
+   EVENT CARDS GRID
+══════════════════════════════════════════════════════════ */
+.eb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+}
+
+.eb-card {
+  background: #2e2a26;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+  border-top: 3px solid var(--event-color);
+}
+.eb-card:hover {
+  border-color: rgba(245, 240, 232, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.eb-card-image {
+  position: relative;
+  aspect-ratio: 16/8;
+  overflow: hidden;
+  background: #141210;
+}
+.eb-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.eb-card:hover .eb-card-image img {
+  transform: scale(1.05);
+}
+
+.eb-card-image-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1714, var(--event-color));
+  opacity: 0.3;
+}
+
+.eb-card-cat {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+}
+
+.eb-card-live {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1d9e75;
+  background: rgba(29, 158, 117, 0.15);
+  border: 1px solid rgba(29, 158, 117, 0.3);
+  padding: 0.18rem 0.5rem;
+}
+
+.eb-card-body {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.eb-card-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.2;
+}
+
+.eb-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.eb-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(245, 240, 232, 0.42);
+}
+.eb-card-meta svg {
+  stroke: var(--event-color);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  flex-shrink: 0;
+}
+
+.eb-card-countdown .eb-cd-num {
+  font-size: 1.1rem;
+}
+.eb-card-countdown .eb-cd-digits {
+  min-width: 34px;
+  padding: 0.2rem 0.4rem;
+}
+.eb-card-countdown .eb-cd-label {
+  font-size: 0.48rem;
+}
+.eb-card-countdown .eb-cd-sep {
+  font-size: 1rem;
+  margin-top: 0.2rem;
+}
+.eb-card-countdown .eb-cd-unit {
+  min-width: 34px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   EVENT DETAIL MODAL
+══════════════════════════════════════════════════════════ */
+.eb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: ebModalBdIn 0.2s ease;
+}
+@keyframes ebModalBdIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.eb-modal {
+  background: #1e1a14;
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  border-top: 3px solid var(--event-color);
+  max-width: 680px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  border-radius: 8px;
+  animation: ebModalIn 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 21, 42, 0.2) transparent;
+}
+@keyframes ebModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.eb-modal::-webkit-scrollbar {
+  width: 4px;
+}
+.eb-modal::-webkit-scrollbar-thumb {
+  background: rgba(192, 21, 42, 0.2);
+  border-radius: 2px;
+}
+
+.eb-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.07);
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  color: rgba(245, 240, 232, 0.5);
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.eb-modal-close:hover {
+  background: rgba(192, 21, 42, 0.7);
+  color: #fff;
+  border-color: transparent;
+}
+
+.eb-modal-cover {
+  width: 100%;
+  aspect-ratio: 16/7;
+  overflow: hidden;
+  position: relative;
+}
+.eb-modal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.eb-modal-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(30, 26, 20, 0.8), transparent 50%);
+}
+.eb-modal-cover-meta {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 1;
+}
+
+.eb-modal-body {
+  padding: 2rem 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.eb-modal-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.1;
+}
+
+.eb-modal-subtitle {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.5);
+  line-height: 1.55;
+  margin-top: -0.8rem;
+}
+
+.eb-modal-countdown {
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  padding: 1.5rem;
+  border-radius: 6px;
+}
+.eb-modal-countdown-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 1rem;
+}
+.eb-modal-countdown .eb-cd-num {
+  font-size: 2rem;
+}
+.eb-modal-countdown .eb-cd-digits {
+  min-width: 58px;
+  padding: 0.4rem 0.7rem;
+}
+.eb-modal-countdown .eb-cd-sep {
+  font-size: 1.6rem;
+}
+
+.eb-modal-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.eb-modal-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.eb-modal-detail-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.eb-modal-detail-value {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(245, 240, 232, 0.75);
+  display: block;
+  line-height: 1.4;
+}
+
+.eb-modal-desc p {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.58);
+}
+
+.eb-modal-highlights {
+}
+.eb-modal-highlights-title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+  margin-bottom: 0.75rem;
+}
+.eb-modal-highlights ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.eb-modal-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(245, 240, 232, 0.62);
+  line-height: 1.5;
+}
+.eb-highlight-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+.eb-modal-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--event-color);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  transition: opacity 0.2s;
+}
+.eb-modal-map-btn:hover {
+  opacity: 0.7;
+}
+.eb-modal-map-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--event-color);
+  fill: none;
+  stroke-width: 2;
+}
+
+.eb-modal-actions {
+  padding-top: 0.5rem;
+}
+.eb-modal-cta {
+  display: block;
+  width: 100%;
+  padding: 0.95rem;
+  text-align: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0e0c09;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 4px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.eb-modal-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .eb-featured {
+    min-height: 380px;
+  }
+  .eb-featured-content {
+    padding: 1.8rem;
+  }
+  .eb-featured-countdown .eb-cd-num {
+    font-size: 1.7rem;
+  }
+  .eb-featured-countdown .eb-cd-digits {
+    min-width: 50px;
+  }
+  .eb-modal-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .eb-modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .eb-modal {
+    max-height: 94vh;
+    border-radius: 16px 16px 0 0;
+    animation: ebModalSlide 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+  @keyframes ebModalSlide {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  .eb-modal-body {
+    padding: 1.5rem 1.5rem 2rem;
+  }
+  .eb-featured-countdown .eb-cd-num {
+    font-size: 1.4rem;
+  }
+  .eb-featured-countdown .eb-cd-digits {
+    min-width: 44px;
+  }
+  .eb-grid {
+    grid-template-columns: 1fr;
+  }
+}

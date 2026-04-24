@@ -8,20 +8,13 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MembersArea from "./pages/MembersArea";
-import AdminPanel from "./pages/AdminPanel";
+import AdminPanel from "./pages/Admin/AdminPanel";
 import MembershipPage from "./pages/MembershipPage";
-// import MembershipPage from './pages/MembershipPage';
 import CausePage from './pages/CausePage';
+import EventBoard from "./pages/EventBoard";
+import AdminEventManager from "./pages/Admin/Admineventmanager ";
 
 
-console.log('=== Environment Variables Debug ===');
-console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
-console.log('Mode:', import.meta.env.MODE);
-console.log('Is Prod:', import.meta.env.PROD);
-console.log('===================================');
-
-const API = import.meta.env.VITE_BACKEND_URL;
-console.log('API URL being used:', API);
 
 function App() {
   return (
@@ -35,6 +28,15 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/membership" element={<MembershipPage />} />
           <Route path="/cause/:id" element={<CausePage />} />
+          <Route path="/events" element={<EventBoard />} />
+          <Route
+            path="/admin/events"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminEventManager />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/members"
             element={
