@@ -12,7 +12,7 @@ import AdminPanel from "./pages/Admin/AdminPanel";
 import MembershipPage from "./pages/MembershipPage";
 import CausePage from './pages/CausePage';
 import EventBoard from "./pages/EventBoard";
-import AdminEventManager from "./pages/Admin/Admineventmanager ";
+import AdminEventManager from "./pages/Admin/AdminEventManager ";
 
 
 
