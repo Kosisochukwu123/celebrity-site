@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AdminChat from "../../components/AdminChat";
 import CauseGalleryManager from "../../components/CauseGalleryManager";
+import AdminEventManager from "./AdminEventManager ";
 import "../../styles/admin.css";
+import { useNavigate } from "react-router-dom";
+
 
 const SECTIONS = [
   {
@@ -50,6 +53,7 @@ export default function AdminPanel() {
   const [codeCount, setCodeCount] = useState(10);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
+  const navigate = useNavigate()
 
   const currentSection = SECTIONS.find((s) => s.id === section);
 
@@ -78,6 +82,8 @@ export default function AdminPanel() {
         .catch(() => {});
     }
   }, [tab]);
+
+
 
   const saveContent = async (e) => {
     e.preventDefault();
@@ -122,7 +128,7 @@ export default function AdminPanel() {
         <span className="admin-eyebrow">Administrator</span>
         <h1 className="admin-title">Admin Panel</h1>
         <div className="admin-tabs">
-          {["content", "codes", "chat"].map((t) => (
+          {["content", "codes", "chat", "events", "gallery"].map((t) => (
             <button
               key={t}
               className={`admin-tab admin-tab--${tab === t ? "active" : "inactive"}`}
@@ -132,7 +138,11 @@ export default function AdminPanel() {
                 ? "Content Editor"
                 : t === "codes"
                   ? "Membership Codes"
-                  : "Live Chat"}
+                  : t === "chat"
+                  ? "Live Chat"
+                  : t === "events"
+                  ? "Events"
+                  : "Gallery"}
             </button>
           ))}
         </div>
@@ -312,6 +322,10 @@ export default function AdminPanel() {
         {/* ── LIVE CHAT ── */}
         {tab === "chat" && <AdminChat />}
 
+        {/* ── EVENTS MANAGER ── */}
+        {tab === "events" && <AdminEventManager />}
+
+        {/* ── GALLERY MANAGER ── */}
         {tab === "gallery" && <CauseGalleryManager />}
       </div>
     </div>

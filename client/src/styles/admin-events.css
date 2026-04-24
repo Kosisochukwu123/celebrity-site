@@ -1,0 +1,542 @@
+/* ============================================================
+   ADMIN-EVENTS.CSS — Admin event manager styles
+   ============================================================ */
+
+.aem-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* border: 2px solid red; */
+  margin-top: 4rem;
+}
+
+/* ── LIST HEADER ─────────────────────────────────────────── */
+.aem-list-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.aem-list-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f5f0e8;
+}
+
+.aem-list-sub {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.3);
+  margin-top: 0.25rem;
+}
+
+.aem-create-btn {
+  padding: 0.65rem 1.4rem;
+  background: #c0152a;
+  color: #fff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.aem-create-btn:hover {
+  background: #8b0000;
+}
+
+/* ── MESSAGES ────────────────────────────────────────────── */
+.aem-msg {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  padding: 0.7rem 1rem;
+}
+.aem-msg--success {
+  background: rgba(29, 158, 117, 0.08);
+  border: 1px solid rgba(29, 158, 117, 0.2);
+  color: #1d9e75;
+}
+.aem-msg--error {
+  background: rgba(226, 75, 74, 0.08);
+  border: 1px solid rgba(226, 75, 74, 0.2);
+  color: #e24b4a;
+}
+
+.aem-loading,
+.aem-empty {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(245, 240, 232, 0.28);
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+/* ── EVENT LIST ──────────────────────────────────────────── */
+.aem-event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.aem-event-row {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem;
+  background: #2e2a26;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  transition: border-color 0.2s;
+}
+.aem-event-row:hover {
+  border-color: rgba(245, 240, 232, 0.14);
+}
+
+.aem-event-row-img {
+  width: 90px;
+  height: 56px;
+  overflow: hidden;
+  position: relative;
+  background: #141210;
+  flex-shrink: 0;
+}
+.aem-event-row-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.aem-event-row-img-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1714, #2a1515);
+}
+
+.aem-event-featured-tag {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(201, 168, 76, 0.85);
+  color: #0e0c09;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.15rem;
+}
+
+.aem-event-row-title {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  margin-bottom: 0.25rem;
+}
+
+.aem-event-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.aem-event-row-meta span {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(245, 240, 232, 0.35);
+}
+
+.aem-event-row-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.aem-status-pill {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.6rem;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.aem-edit-btn,
+.aem-del-btn {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.aem-edit-btn {
+  background: rgba(245, 240, 232, 0.07);
+  color: rgba(245, 240, 232, 0.6);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+}
+.aem-edit-btn:hover {
+  background: rgba(245, 240, 232, 0.12);
+  color: #f5f0e8;
+}
+.aem-del-btn {
+  background: rgba(226, 75, 74, 0.08);
+  color: #e24b4a;
+  border: 1px solid rgba(226, 75, 74, 0.2);
+}
+.aem-del-btn:hover {
+  background: rgba(226, 75, 74, 0.18);
+}
+.aem-del-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── FORM ────────────────────────────────────────────────── */
+.aem-form-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.08);
+}
+
+.aem-back-btn {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.38);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.aem-back-btn:hover {
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.aem-form-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f5f0e8;
+}
+
+.aem-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.aem-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.aem-field--full {
+  grid-column: 1 / -1;
+}
+
+.aem-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+}
+
+.aem-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: rgba(245, 240, 232, 0.05);
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  color: #f5f0e8;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.aem-input:focus {
+  border-color: rgba(245, 240, 232, 0.28);
+}
+.aem-input::placeholder {
+  color: rgba(245, 240, 232, 0.2);
+}
+
+.aem-textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+select.aem-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(245,240,232,0.35)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+select.aem-input option {
+  background: #2e2a26;
+  color: #f5f0e8;
+}
+
+.aem-hint {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.65rem;
+  color: rgba(245, 240, 232, 0.2);
+}
+
+/* Image preview */
+.aem-img-preview {
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.aem-img-preview img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.aem-img-tag {
+  position: absolute;
+  bottom: 0.4rem;
+  left: 0.4rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+}
+.aem-img-tag--saved {
+  background: rgba(29, 158, 117, 0.8);
+  color: #fff;
+}
+.aem-img-tag--new {
+  background: rgba(201, 168, 76, 0.85);
+  color: #0e0c09;
+}
+
+.aem-upload-btn {
+  padding: 0.55rem 1.1rem;
+  background: rgba(245, 240, 232, 0.06);
+  border: 1px solid rgba(245, 240, 232, 0.15);
+  color: rgba(245, 240, 232, 0.55);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+  align-self: flex-start;
+}
+.aem-upload-btn:hover {
+  border-color: rgba(245, 240, 232, 0.3);
+  color: rgba(245, 240, 232, 0.85);
+}
+
+/* Checkbox toggle */
+.aem-field--check {
+  flex-direction: row;
+  align-items: center;
+}
+.aem-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.6);
+  user-select: none;
+}
+.aem-check-label input[type="checkbox"] {
+  display: none;
+}
+.aem-check-box {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(245, 240, 232, 0.2);
+  background: rgba(245, 240, 232, 0.05);
+  flex-shrink: 0;
+  position: relative;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.aem-check-label input:checked + .aem-check-box {
+  background: #c0152a;
+  border-color: #c0152a;
+}
+.aem-check-label input:checked + .aem-check-box::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+/* Highlights */
+.aem-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.aem-highlight-row {
+  display: flex;
+  gap: 0.4rem;
+}
+.aem-highlight-row .aem-input {
+  flex: 1;
+}
+.aem-hl-remove {
+  width: 34px;
+  height: 34px;
+  background: rgba(226, 75, 74, 0.08);
+  border: 1px solid rgba(226, 75, 74, 0.2);
+  color: #e24b4a;
+  cursor: pointer;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.aem-hl-remove:hover {
+  background: rgba(226, 75, 74, 0.18);
+}
+.aem-hl-add {
+  align-self: flex-start;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c0152a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  transition: opacity 0.2s;
+}
+.aem-hl-add:hover {
+  opacity: 0.7;
+}
+
+/* Save / cancel */
+.aem-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.07);
+}
+.aem-save-btn {
+  padding: 0.8rem 2.2rem;
+  background: #c0152a;
+  color: #fff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.aem-save-btn:hover {
+  background: #8b0000;
+  transform: translateY(-1px);
+}
+.aem-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.aem-cancel-btn {
+  padding: 0.8rem 1.5rem;
+  background: transparent;
+  color: rgba(245, 240, 232, 0.38);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.aem-cancel-btn:hover {
+  border-color: rgba(245, 240, 232, 0.28);
+  color: rgba(245, 240, 232, 0.7);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .aem-form {
+    grid-template-columns: 1fr;
+  }
+  .aem-field--full {
+    grid-column: 1;
+  }
+  .aem-event-row {
+    grid-template-columns: 72px 1fr;
+  }
+  .aem-event-row-right {
+    grid-column: 1/-1;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .aem-event-row {
+    grid-template-columns: 1fr;
+  }
+  .aem-event-row-img {
+    width: 100%;
+    height: 140px;
+  }
+  .aem-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
