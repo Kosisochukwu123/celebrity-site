@@ -10,6 +10,9 @@ function formatTime(dateStr) {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+  const API = import.meta.env.VITE_BACKEND_URL;
+
+
 export default function AdminChat() {
   const [conversations, setConversations] = useState([]);
   const [activeConvo, setActiveConvo]     = useState(null); // conversationId string
@@ -18,7 +21,6 @@ export default function AdminChat() {
   const [reply, setReply]                 = useState('');
   const [connected, setConnected]         = useState(false);
   const messagesEndRef = useRef(null);
-  const API = import.meta.env.VITE_BACKEND_URL;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

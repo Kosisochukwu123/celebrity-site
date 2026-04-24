@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "VITE_BACKEND_URL": "https://celebrity-site-3tym.onrender.com"
+    }
+  }
+}

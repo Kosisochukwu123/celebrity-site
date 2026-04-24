@@ -13,6 +13,16 @@ import MembershipPage from "./pages/MembershipPage";
 // import MembershipPage from './pages/MembershipPage';
 import CausePage from './pages/CausePage';
 
+
+console.log('=== Environment Variables Debug ===');
+console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
+console.log('Mode:', import.meta.env.MODE);
+console.log('Is Prod:', import.meta.env.PROD);
+console.log('===================================');
+
+const API = import.meta.env.VITE_BACKEND_URL;
+console.log('API URL being used:', API);
+
 function App() {
   return (
     <AuthProvider>
