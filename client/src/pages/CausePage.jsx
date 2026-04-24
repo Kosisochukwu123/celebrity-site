@@ -3,7 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/cause-page.css";
 
-const API = "http://localhost:5000" || import.meta.env.VITE_BACKEND_URL || ""; // Adjust as needed for production
+const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
+console.log("API:", API);
+
 const imgSrc = (url) =>
   !url ? null : url.startsWith("http") ? url : `${API}${url}`;
 
@@ -167,11 +170,11 @@ On the policy front, our team has secured binding net-zero commitments from 12 m
   },
 };
 
+
 export default function CausePage() {
   const { id } = useParams(); // "1", "2", or "3"
   const navigate = useNavigate();
   const cause = CAUSE_DATA[id];
-
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState(null); // { url, caption, index }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/home.css";
 
-const API = "http://localhost:5000" || import.meta.env.VITE_BACKEND_URL;
+const API = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 // Helper — prefix image URLs with the API base so they always resolve
 // even if the Vite proxy isn't running
