@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AdminChat from "../../components/AdminChat";
 import CauseGalleryManager from "../../components/CauseGalleryManager";
-import AdminEventManager from "./AdminEventManager ";
+import AdminEventManager from "../../components/AdminEventManager";
+import AdminPayments from "../../components/AdminPayments";
 import "../../styles/admin.css";
 import { useNavigate } from "react-router-dom";
-
+import AdminPrivateGallery from "../../components/AdminPrivateGallery";
 
 const SECTIONS = [
   {
@@ -53,7 +54,7 @@ export default function AdminPanel() {
   const [codeCount, setCodeCount] = useState(10);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const currentSection = SECTIONS.find((s) => s.id === section);
 
@@ -82,8 +83,6 @@ export default function AdminPanel() {
         .catch(() => {});
     }
   }, [tab]);
-
-
 
   const saveContent = async (e) => {
     e.preventDefault();
@@ -128,27 +127,28 @@ export default function AdminPanel() {
         <span className="admin-eyebrow">Administrator</span>
         <h1 className="admin-title">Admin Panel</h1>
         <div className="admin-tabs">
-          {["content", "codes", "chat", "events", "gallery"].map((t) => (
+          {[
+            ["content", "Content Editor"],
+            ["cause-gallery", "Cause Galleries"],
+            ["private-gallery", "Private Gallery"],
+            ["events", "Events"],
+            ["payments", "Payments"],
+            ["codes", "Membership Codes"],
+            ["chat", "Live Chat"],
+          ].map(([value, label]) => (
             <button
-              key={t}
-              className={`admin-tab admin-tab--${tab === t ? "active" : "inactive"}`}
-              onClick={() => setTab(t)}
+              key={value}
+              className={`admin-tab admin-tab--${tab === value ? "active" : "inactive"}`}
+              onClick={() => setTab(value)}
             >
-              {t === "content"
-                ? "Content Editor"
-                : t === "codes"
-                  ? "Membership Codes"
-                  : t === "chat"
-                  ? "Live Chat"
-                  : t === "events"
-                  ? "Events"
-                  : "Gallery"}
+              {label}
             </button>
           ))}
         </div>
       </div>
 
       <div className="admin-body">
+        
         {/* ── CONTENT EDITOR ── */}
         {tab === "content" && (
           <div className="admin-editor">
@@ -250,6 +250,18 @@ export default function AdminPanel() {
           </div>
         )}
 
+        {/* ── CAUSE GALLERY MANAGER ── */}
+        {tab === "cause-gallery" && <CauseGalleryManager />}
+
+        {/* ── PRIVATE GALLERY ── */}
+        {tab === "private-gallery" && <AdminPrivateGallery />}
+
+        {/* ── EVENTS ─────────────────────────────────── */}
+        {tab === "events" && <AdminEventManager />}
+
+        {/* ── PAYMENTS ────────────────────────────────── */}
+        {tab === "payments" && <AdminPayments />}
+
         {/* ── MEMBERSHIP CODES ── */}
         {tab === "codes" && (
           <div>
@@ -322,11 +334,6 @@ export default function AdminPanel() {
         {/* ── LIVE CHAT ── */}
         {tab === "chat" && <AdminChat />}
 
-        {/* ── EVENTS MANAGER ── */}
-        {tab === "events" && <AdminEventManager />}
-
-        {/* ── GALLERY MANAGER ── */}
-        {tab === "gallery" && <CauseGalleryManager />}
       </div>
     </div>
   );

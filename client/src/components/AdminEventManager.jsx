@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "../../styles/admin-events.css";
+import "../styles/admin-events.css";
 
 const API = import.meta.env.VITE_BACKEND_URL;
 const imgSrc = (url) =>

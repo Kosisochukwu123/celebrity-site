@@ -12,7 +12,9 @@ import AdminPanel from "./pages/Admin/AdminPanel";
 import MembershipPage from "./pages/MembershipPage";
 import CausePage from './pages/CausePage';
 import EventBoard from "./pages/EventBoard";
-import AdminEventManager from "./pages/Admin/AdminEventManager ";
+import AdminEventManager from "./components/AdminEventManager";
+import PrivateGallery from "./components/PrivateGallery"
+import AdminPrivateGallery from "./components/AdminPrivateGallery";
 
 
 
@@ -28,7 +30,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/membership" element={<MembershipPage />} />
           <Route path="/cause/:id" element={<CausePage />} />
-          <Route path="/events" element={<EventBoard />} />
+          <Route path="/membership/events" element={<EventBoard />} />
+          <Route path="/membership/gallery" element={<PrivateGallery/>} />
           <Route
             path="/admin/events"
             element={
@@ -53,6 +56,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/gallery"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminPrivateGallery />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

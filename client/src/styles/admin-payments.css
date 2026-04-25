@@ -1,0 +1,661 @@
+/* ============================================================
+   ADMIN-PAYMENTS.CSS — Payment submissions review panel
+   ============================================================ */
+
+.ap-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── TABS ────────────────────────────────────────────────── */
+.ap-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.08);
+}
+
+.ap-tab {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.ap-tab--active {
+  background: transparent;
+  color: #f5f0e8;
+  border-bottom: 2px solid #c0152a;
+  margin-bottom: -1px;
+}
+
+.ap-tab--inactive {
+  background: transparent;
+  color: rgba(245, 240, 232, 0.35);
+}
+.ap-tab--inactive:hover {
+  color: rgba(245, 240, 232, 0.65);
+}
+
+.ap-tab-badge {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #c0152a;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* ── FILTERS ─────────────────────────────────────────────── */
+.ap-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.ap-filter-btn {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: rgba(245, 240, 232, 0.38);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ap-filter-btn:hover {
+  color: rgba(245, 240, 232, 0.7);
+  border-color: rgba(245, 240, 232, 0.2);
+}
+.ap-filter-btn.active {
+  background: rgba(192, 21, 42, 0.12);
+  border-color: rgba(192, 21, 42, 0.35);
+  color: #f5f0e8;
+}
+
+.ap-refresh-btn {
+  margin-left: auto;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: rgba(245, 240, 232, 0.38);
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+.ap-refresh-btn:hover {
+  color: rgba(245, 240, 232, 0.7);
+  border-color: rgba(245, 240, 232, 0.2);
+}
+
+/* ── SPLIT LAYOUT ────────────────────────────────────────── */
+.ap-split {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.5rem;
+  min-height: 420px;
+}
+
+/* ── PAYMENT LIST ────────────────────────────────────────── */
+.ap-list {
+  background: #161310;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  border-radius: 6px;
+  overflow-y: auto;
+  max-height: 540px;
+}
+.ap-list::-webkit-scrollbar {
+  width: 4px;
+}
+.ap-list::-webkit-scrollbar-thumb {
+  background: rgba(245, 240, 232, 0.08);
+  border-radius: 2px;
+}
+
+.ap-loading,
+.ap-empty {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.22);
+  font-style: italic;
+  padding: 2rem 1.2rem;
+  text-align: center;
+}
+
+.ap-payment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.05);
+  cursor: pointer;
+  transition: background 0.18s;
+  gap: 0.75rem;
+}
+.ap-payment-row:last-child {
+  border-bottom: none;
+}
+.ap-payment-row:hover {
+  background: rgba(245, 240, 232, 0.03);
+}
+.ap-payment-row.active {
+  background: rgba(192, 21, 42, 0.08);
+  border-left: 2px solid #c0152a;
+}
+
+.ap-payment-row-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.ap-payment-method-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.ap-payment-name {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.15rem;
+}
+
+.ap-payment-meta {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(245, 240, 232, 0.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.1rem;
+}
+
+.ap-payment-time {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.62rem;
+  color: rgba(245, 240, 232, 0.22);
+}
+
+.ap-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── DETAIL PANEL ────────────────────────────────────────── */
+.ap-detail {
+  background: #1e1a14;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ap-detail-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.2);
+  font-style: italic;
+}
+
+.ap-detail-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  height: 100%;
+  overflow-y: auto;
+}
+.ap-detail-content::-webkit-scrollbar {
+  width: 4px;
+}
+.ap-detail-content::-webkit-scrollbar-thumb {
+  background: rgba(245, 240, 232, 0.08);
+}
+
+.ap-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ap-detail-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f5f0e8;
+}
+
+.ap-detail-status {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.ap-detail-email {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.35);
+  margin-top: -0.8rem;
+}
+
+/* Info grid */
+.ap-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.ap-info-item {
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ap-info-item--full {
+  grid-column: 1 / -1;
+}
+
+.ap-info-item span {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.28);
+}
+
+.ap-info-item strong {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.ap-hash {
+  font-family: "Courier New", monospace !important;
+  font-size: 0.72rem !important;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* Gift card image */
+.ap-gift-img-wrap {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  overflow: hidden;
+  border-radius: 4px;
+}
+.ap-gift-img-wrap img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.ap-gift-img-wrap:hover img {
+  transform: scale(1.02);
+}
+
+.ap-gift-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0);
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+.ap-gift-img-wrap:hover .ap-gift-img-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+/* Admin note */
+.ap-note-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ap-note-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+}
+
+.ap-note-input {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: #f5f0e8;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  outline: none;
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.55;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+.ap-note-input:focus {
+  border-color: rgba(245, 240, 232, 0.25);
+}
+.ap-note-input::placeholder {
+  color: rgba(245, 240, 232, 0.18);
+}
+.ap-note-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Review actions */
+.ap-review-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ap-approve-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba(29, 158, 117, 0.12);
+  border: 1px solid rgba(29, 158, 117, 0.3);
+  color: #1d9e75;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.ap-approve-btn:hover:not(:disabled) {
+  background: rgba(29, 158, 117, 0.22);
+  transform: translateY(-1px);
+}
+.ap-approve-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ap-reject-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba(226, 75, 74, 0.08);
+  border: 1px solid rgba(226, 75, 74, 0.25);
+  color: #e24b4a;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.ap-reject-btn:hover:not(:disabled) {
+  background: rgba(226, 75, 74, 0.18);
+  transform: translateY(-1px);
+}
+.ap-reject-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ap-reviewed-note {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.35);
+  line-height: 1.55;
+  padding: 0.8rem;
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  border-radius: 4px;
+}
+.ap-reviewed-note em {
+  color: rgba(245, 240, 232, 0.5);
+  font-style: italic;
+}
+
+/* ── WALLET SETTINGS ─────────────────────────────────────── */
+.ap-wallets {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 600px;
+}
+
+.ap-wallets-desc {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.4);
+  line-height: 1.65;
+}
+
+.ap-wallet-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ap-wallet-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+}
+
+.ap-wallet-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(245, 240, 232, 0.05);
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  color: #f5f0e8;
+  font-family: "Courier New", monospace;
+  font-size: 0.82rem;
+  outline: none;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+  letter-spacing: 0.02em;
+}
+.ap-wallet-input:focus {
+  border-color: rgba(201, 168, 76, 0.4);
+}
+.ap-wallet-input::placeholder {
+  color: rgba(245, 240, 232, 0.18);
+  font-family: "Barlow", sans-serif;
+}
+
+.ap-wallet-select {
+  font-family: "Barlow", sans-serif !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0 !important;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.ap-wallet-select option {
+  background: #1e1a14;
+}
+
+.ap-wallet-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.ap-save-wallets-btn {
+  padding: 0.8rem 2rem;
+  background: #c0152a;
+  color: #fff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.ap-save-wallets-btn:hover:not(:disabled) {
+  background: #8b0000;
+  transform: translateY(-1px);
+}
+.ap-save-wallets-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ap-wallet-success {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: #1d9e75;
+}
+.ap-wallet-error {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: #e24b4a;
+}
+
+.ap-wallet-warning {
+  padding: 0.85rem 1rem;
+  background: rgba(247, 147, 26, 0.06);
+  border: 1px solid rgba(247, 147, 26, 0.18);
+  border-radius: 4px;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(247, 147, 26, 0.75);
+  line-height: 1.55;
+}
+
+/* ── IMAGE LIGHTBOX ──────────────────────────────────────── */
+.ap-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.ap-lightbox img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.ap-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ap-lightbox-close:hover {
+  background: rgba(192, 21, 42, 0.7);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .ap-split {
+    grid-template-columns: 1fr;
+  }
+  .ap-list {
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ap-review-actions {
+    flex-direction: column;
+  }
+  .ap-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

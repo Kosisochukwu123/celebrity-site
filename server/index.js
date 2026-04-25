@@ -45,6 +45,8 @@ app.use("/api/membership", require("./routes/membership.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 app.use("/api/chat", require("./routes/chat.routes"));
 app.use('/api/events', require('./routes/event.routes'));
+app.use('/api/payments',   require('./routes/payment.routes'));
+app.use('/api/gallery',    require('./routes/gallery.routes'));
 
 app.get("/", (req, res) => {
   res.send("API is running...");

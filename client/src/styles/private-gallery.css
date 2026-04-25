@@ -1,0 +1,377 @@
+/* ============================================================
+   PRIVATE-GALLERY.CSS — Members-only image mosaic gallery
+   ============================================================ */
+
+.pg-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── LOADING / EMPTY ─────────────────────────────────────── */
+.pg-loading {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.pg-spinner {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(245, 240, 232, 0.07);
+  border-top-color: #c0152a;
+  border-radius: 50%;
+  animation: pgSpin 0.75s linear infinite;
+}
+@keyframes pgSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pg-loading p {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.28);
+}
+
+.pg-empty {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 3rem;
+}
+
+.pg-empty h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.35);
+}
+
+.pg-empty p {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.22);
+  max-width: 320px;
+  line-height: 1.65;
+}
+
+/* ── META BAR ────────────────────────────────────────────── */
+.pg-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.07);
+}
+
+.pg-count {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.28);
+}
+
+.pg-exclusive-tag {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c0152a;
+  border: 1px solid rgba(192, 21, 42, 0.3);
+  padding: 0.18rem 0.6rem;
+}
+
+/* ── MOSAIC GRID ─────────────────────────────────────────── */
+.pg-mosaic {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pg-row {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+}
+
+/* ── CELL ────────────────────────────────────────────────── */
+.pg-cell {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: #141210;
+  aspect-ratio: 4/3;
+}
+
+/* Span variants — wider cells */
+.pg-cell--span-2 {
+  grid-column: span 2;
+  aspect-ratio: 8/3;
+}
+.pg-cell--span-3 {
+  grid-column: span 3;
+  aspect-ratio: 16/5;
+}
+
+/* Loading shimmer before image loads */
+.pg-cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #1a1714 0%, #2e2a26 50%, #1a1714 100%);
+  background-size: 200% 100%;
+  animation: pgShimmer 1.5s infinite;
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+.pg-cell--loaded::before {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes pgShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.pg-cell-inner {
+  position: absolute;
+  inset: 0;
+}
+
+.pg-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+.pg-cell:hover img {
+  transform: scale(1.06);
+}
+
+/* Overlay on hover */
+.pg-cell-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  z-index: 2;
+}
+.pg-cell:hover .pg-cell-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.pg-zoom-icon {
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+.pg-cell:hover .pg-zoom-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── LIGHTBOX ────────────────────────────────────────────── */
+.pg-lb-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: pgLbIn 0.2s ease;
+}
+@keyframes pgLbIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pg-lb-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  z-index: 10;
+}
+.pg-lb-close:hover {
+  background: rgba(192, 21, 42, 0.7);
+  color: #fff;
+  border-color: transparent;
+}
+
+.pg-lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  z-index: 10;
+  border-radius: 4px;
+  line-height: 1;
+}
+.pg-lb-arrow:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+.pg-lb-arrow--prev {
+  left: 1.5rem;
+}
+.pg-lb-arrow--next {
+  right: 1.5rem;
+}
+
+.pg-lb-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: calc(100vw - 12rem);
+}
+
+.pg-lb-img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  animation: pgImgIn 0.25s ease;
+}
+@keyframes pgImgIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pg-lb-caption {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+.pg-lb-counter {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  z-index: 10;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 760px) {
+  /* Simplify to 2-column on tablet */
+  .pg-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pg-cell--span-2 {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  .pg-cell--span-3 {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  .pg-lb-arrow--prev {
+    left: 0.5rem;
+  }
+  .pg-lb-arrow--next {
+    right: 0.5rem;
+  }
+  .pg-lb-inner {
+    max-width: calc(100vw - 6rem);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Single column on mobile */
+  .pg-row {
+    grid-template-columns: 1fr;
+  }
+  .pg-cell,
+  .pg-cell--span-2,
+  .pg-cell--span-3 {
+    grid-column: span 1;
+    aspect-ratio: 4/3;
+  }
+  .pg-lb-backdrop {
+    padding: 0;
+  }
+  .pg-lb-img {
+    max-height: 70vh;
+  }
+  .pg-lb-inner {
+    max-width: 100vw;
+    padding: 0;
+  }
+  .pg-lb-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+}

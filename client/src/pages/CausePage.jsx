@@ -457,6 +457,7 @@ export default function CausePage() {
           </button>
         </div>
       )}
+      
     </div>
   );
 }

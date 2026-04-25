@@ -1,0 +1,397 @@
+/* ============================================================
+   ADMIN-PRIVATE-GALLERY.CSS
+   ============================================================ */
+
+.apg-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.apg-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.apg-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f5f0e8;
+}
+.apg-sub {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(245, 240, 232, 0.28);
+  margin-top: 0.25rem;
+}
+
+.apg-bulk-delete-btn {
+  padding: 0.6rem 1.2rem;
+  background: rgba(226, 75, 74, 0.1);
+  border: 1px solid rgba(226, 75, 74, 0.3);
+  color: #e24b4a;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.apg-bulk-delete-btn:hover:not(:disabled) {
+  background: rgba(226, 75, 74, 0.2);
+}
+.apg-bulk-delete-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.apg-dropzone {
+  border: 2px dashed rgba(245, 240, 232, 0.1);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  background: rgba(245, 240, 232, 0.02);
+  border-radius: 4px;
+}
+.apg-dropzone:hover,
+.apg-dropzone.drag-over {
+  border-color: rgba(192, 21, 42, 0.45);
+  background: rgba(192, 21, 42, 0.04);
+}
+.apg-dropzone.uploading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+.apg-upload-icon {
+  width: 40px;
+  height: 40px;
+  color: rgba(245, 240, 232, 0.2);
+  margin-bottom: 0.4rem;
+}
+.apg-dz-title {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.5);
+}
+.apg-dz-hint {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(245, 240, 232, 0.22);
+}
+
+.apg-upload-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 320px;
+}
+.apg-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(245, 240, 232, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.apg-progress-fill {
+  height: 100%;
+  background: #c0152a;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+.apg-upload-progress p {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(245, 240, 232, 0.45);
+}
+
+.apg-msg {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  padding: 0.65rem 1rem;
+  border-radius: 3px;
+}
+.apg-msg--success {
+  background: rgba(29, 158, 117, 0.08);
+  border: 1px solid rgba(29, 158, 117, 0.2);
+  color: #1d9e75;
+}
+.apg-msg--error {
+  background: rgba(226, 75, 74, 0.08);
+  border: 1px solid rgba(226, 75, 74, 0.2);
+  color: #e24b4a;
+}
+
+.apg-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.apg-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.apg-sel-btn {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  background: rgba(245, 240, 232, 0.05);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: rgba(245, 240, 232, 0.4);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.apg-sel-btn:hover {
+  border-color: rgba(245, 240, 232, 0.22);
+  color: rgba(245, 240, 232, 0.7);
+}
+.apg-sel-count {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #c0152a;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(192, 21, 42, 0.3);
+}
+.apg-toolbar-hint {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.65rem;
+  color: rgba(245, 240, 232, 0.18);
+}
+.apg-loading {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.25);
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+.apg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.6rem;
+}
+
+.apg-item {
+  display: flex;
+  flex-direction: column;
+  background: #2e2a26;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.apg-item.selected {
+  border-color: #c0152a;
+}
+
+.apg-item-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #141210;
+  cursor: pointer;
+}
+.apg-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.apg-item:hover .apg-item-img img {
+  transform: scale(1.04);
+}
+
+.apg-selected-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(192, 21, 42, 0.15);
+  pointer-events: none;
+}
+
+.apg-checkbox {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #fff;
+  font-weight: 700;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+  z-index: 2;
+}
+.apg-checkbox.checked {
+  background: #c0152a;
+  border-color: #c0152a;
+}
+
+.apg-delete-btn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition:
+    opacity 0.18s,
+    background 0.18s;
+  z-index: 3;
+}
+.apg-item:hover .apg-delete-btn {
+  opacity: 1;
+}
+.apg-delete-btn:hover {
+  background: rgba(192, 21, 42, 0.8);
+  color: #fff;
+  border-color: transparent;
+}
+.apg-delete-btn:disabled {
+  background: rgba(0, 0, 0, 0.4);
+  cursor: not-allowed;
+}
+
+.apg-caption-display {
+  padding: 0.45rem 0.6rem;
+  cursor: text;
+  min-height: 28px;
+  border-top: 1px solid rgba(245, 240, 232, 0.05);
+}
+.apg-cap-text {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(245, 240, 232, 0.45);
+  display: block;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.apg-cap-empty {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.65rem;
+  color: rgba(245, 240, 232, 0.15);
+  font-style: italic;
+  display: block;
+  transition: color 0.18s;
+}
+.apg-caption-display:hover .apg-cap-empty {
+  color: rgba(245, 240, 232, 0.35);
+}
+
+.apg-caption-edit {
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(245, 240, 232, 0.03);
+  border-top: 1px solid rgba(245, 240, 232, 0.07);
+}
+.apg-caption-input {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  background: rgba(245, 240, 232, 0.06);
+  border: 1px solid rgba(245, 240, 232, 0.15);
+  color: #f5f0e8;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.68rem;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.apg-caption-input:focus {
+  border-color: rgba(245, 240, 232, 0.3);
+}
+.apg-caption-input::placeholder {
+  color: rgba(245, 240, 232, 0.18);
+}
+.apg-caption-btns {
+  display: flex;
+  gap: 0.3rem;
+}
+.apg-cap-save,
+.apg-cap-cancel {
+  flex: 1;
+  padding: 0.28rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: background 0.18s;
+}
+.apg-cap-save {
+  background: #c0152a;
+  color: #fff;
+}
+.apg-cap-save:hover {
+  background: #8b0000;
+}
+.apg-cap-cancel {
+  background: rgba(245, 240, 232, 0.06);
+  color: rgba(245, 240, 232, 0.4);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+}
+.apg-cap-cancel:hover {
+  background: rgba(245, 240, 232, 0.1);
+}
+
+@media (max-width: 600px) {
+  .apg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .apg-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .apg-toolbar-hint {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  .apg-grid {
+    grid-template-columns: 1fr;
+  }
+}
