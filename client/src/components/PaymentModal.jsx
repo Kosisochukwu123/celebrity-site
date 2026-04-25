@@ -12,6 +12,8 @@ const COINS = [
   { id: 'usdt', label: 'USDT',     symbol: 'USDT', icon: '₮', settingKey: 'wallet_usdt' },
 ];
 
+const API = import.meta.env.VITE_BACKEND_URL
+
 const GIFT_BRANDS = ['Amazon', 'Apple', 'Google Play', 'Steam', 'Walmart', 'Target', 'eBay', 'Other'];
 
 const STEPS = ['Method', 'Details', 'Confirm'];
@@ -34,7 +36,7 @@ export default function PaymentModal({ tier, onClose }) {
 
   // Load wallet addresses from admin settings
   useEffect(() => {
-    axios.get('/api/payments/settings').then(res => setWallets(res.data)).catch(() => {});
+    axios.get(`${API}/api/payments/settings`).then(res => setWallets(res.data)).catch(() => {});
   }, []);
 
   // Lock body scroll
@@ -94,7 +96,7 @@ export default function PaymentModal({ tier, onClose }) {
         data.append('giftCardAmount', giftAmount);
         if (giftImage) data.append('giftCardImage', giftImage);
       }
-      await axios.post('/api/payments/submit', data, {
+      await axios.post(`${API}/api/payments/submit`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setSubmitted(true);
