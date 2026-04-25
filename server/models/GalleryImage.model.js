@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
+
 const galleryImageSchema = new mongoose.Schema(
   {
-    url:      { type: String, required: true },
+    // Store as base64 to avoid ephemeral filesystem issues on Render/Railway
+    data:     { type: String, required: true }, // base64 encoded image
+    mime:     { type: String, required: true }, // e.g. 'image/jpeg'
     caption:  { type: String, default: '' },
-    category: { type: String, default: 'general' }, // for future filtering
     order:    { type: Number, default: 0 },
+    sizeKb:   { type: Number, default: 0 },
   },
   { timestamps: true }
 );

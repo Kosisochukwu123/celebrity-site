@@ -1,112 +1,177 @@
-const express  = require('express');
-const multer   = require('multer');
-const path     = require('path');
-const fs       = require('fs');
-const Payment  = require('../models/Payment.model');
-const Setting  = require('../models/Setting.model');
-const User     = require('../models/User.model');
-const { protect }   = require('../middleware/auth.middleware');
-const { adminOnly } = require('../middleware/admin.middleware');
+const express = require("express");
+const multer = require("multer");
+const Payment = require("../models/Payment.model");
+const Setting = require("../models/Setting.model");
+const User = require("../models/User.model");
+const { protect } = require("../middleware/auth.middleware");
+const { adminOnly } = require("../middleware/admin.middleware");
 
 const router = express.Router();
 
-const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-  filename:    (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `pay-${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+// Use memory storage — no disk writes needed, works on Render/Railway/Vercel
+// The image is stored as base64 in MongoDB
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  fileFilter: (req, file, cb) => {
+    const ok = /jpeg|jpg|png|webp|gif/.test(file.mimetype);
+    ok ? cb(null, true) : cb(new Error("Images only (jpg, png, webp, gif)"));
   },
 });
-const fileFilter = (req, file, cb) => {
-  const ok = /jpeg|jpg|png|webp|gif/.test(path.extname(file.originalname).toLowerCase());
-  ok ? cb(null, true) : cb(new Error('Images only'));
-};
-const upload = multer({ storage, fileFilter, limits: { fileSize: 10 * 1024 * 1024 } });
 
-// ── PUBLIC SETTINGS (wallet addresses etc.) ───────────────
+// ── PUBLIC: wallet addresses shown on checkout page ───────
 
-// GET /api/payments/settings  — public wallet config for checkout page
-router.get('/settings', async (req, res) => {
+// GET /api/payments/settings
+router.get("/settings", async (req, res) => {
   try {
     const settings = await Setting.find({
-      key: { $in: ['wallet_btc', 'wallet_eth', 'wallet_usdt', 'wallet_usdt_network'] }
+      key: {
+        $in: ["wallet_btc", "wallet_eth", "wallet_usdt", "wallet_usdt_network"],
+      },
     });
     const map = {};
-    settings.forEach(s => { map[s.key] = s.value; });
+    settings.forEach((s) => {
+      map[s.key] = s.value;
+    });
     res.json(map);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+  } catch (e) {
+    console.error("[payments/settings]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
-// ── USER: Submit a payment ────────────────────────────────
+// ── USER: submit a payment ────────────────────────────────
 
 // POST /api/payments/submit
-router.post('/submit', protect, (req, res) => {
-  upload.single('giftCardImage')(req, res, async (err) => {
-    if (err) return res.status(400).json({ message: err.message });
+router.post(
+  "/submit",
+  protect,
+  upload.single("giftCardImage"),
+  async (req, res) => {
     try {
-      const { tier, tierPrice, method, cryptoCoin, txHash, giftCardBrand, giftCardAmount } = req.body;
+      const {
+        tier,
+        tierLabel,
+        tierPrice,
+        method,
+        cryptoCoin,
+        txHash,
+        giftCardBrand,
+        giftCardAmount,
+      } = req.body;
 
-      // Prevent duplicate pending payments for same tier
+      // Validate tier matches model enum
+      const validTiers = ["silver", "gold", "black"];
+      if (!validTiers.includes(tier)) {
+        return res
+          .status(400)
+          .json({
+            message: `Invalid tier: "${tier}". Must be silver, gold, or black.`,
+          });
+      }
+
+      // Block duplicate pending submissions for same tier
       const existing = await Payment.findOne({
         userId: req.user._id,
         tier,
-        status: 'pending',
+        status: "pending",
       });
       if (existing) {
         return res.status(400).json({
-          message: 'You already have a pending payment for this tier. Please wait for it to be reviewed.',
+          message:
+            "You already have a pending payment for this tier. Please wait for it to be reviewed.",
         });
       }
 
-      const data = {
-        userId:    req.user._id,
-        userName:  req.user.name,
-        userEmail: req.user.email,
-        tier, tierPrice, method,
-        cryptoCoin:    cryptoCoin    || '',
-        txHash:        txHash        || '',
-        giftCardBrand: giftCardBrand || '',
-        giftCardAmount: giftCardAmount || '',
-        giftCardImage: req.file ? `/uploads/${req.file.filename}` : '',
-      };
+      // Convert uploaded gift card image to base64 if present
+      let giftCardImageB64 = "";
+      let giftCardImageMime = "";
+      if (req.file) {
+        giftCardImageB64 = req.file.buffer.toString("base64");
+        giftCardImageMime = req.file.mimetype;
+      }
 
-      const payment = await Payment.create(data);
-      res.status(201).json(payment);
+      const payment = await Payment.create({
+        userId: req.user._id,
+        userName: req.user.name,
+        userEmail: req.user.email,
+        tier,
+        tierLabel: tierLabel || tier,
+        tierPrice,
+        method,
+        cryptoCoin: cryptoCoin || "",
+        txHash: txHash || "",
+        giftCardBrand: giftCardBrand || "",
+        giftCardAmount: giftCardAmount || "",
+        giftCardImage: giftCardImageB64,
+        giftCardImageMime,
+      });
+
+      // Don't send the full base64 back — just confirm success
+      res.status(201).json({
+        _id: payment._id,
+        tier: payment.tier,
+        method: payment.method,
+        status: payment.status,
+        createdAt: payment.createdAt,
+      });
     } catch (e) {
+      console.error("[payments/submit]", e.message);
       res.status(500).json({ message: e.message });
     }
-  });
-});
+  },
+);
 
-// GET /api/payments/my  — user sees their own payment history
-router.get('/my', protect, async (req, res) => {
+// GET /api/payments/my — user's own history
+router.get("/my", protect, async (req, res) => {
   try {
-    const payments = await Payment.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const payments = await Payment.find({ userId: req.user._id })
+      .select("-giftCardImage -giftCardImageMime") // exclude large base64 from list
+      .sort({ createdAt: -1 });
     res.json(payments);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+  } catch (e) {
+    console.error("[payments/my]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
-// ── ADMIN: Review payments ────────────────────────────────
+// ── ADMIN: review submissions ─────────────────────────────
 
-// GET /api/payments/all  — admin sees all payments
-router.get('/all', protect, adminOnly, async (req, res) => {
+// GET /api/payments/all
+router.get("/all", protect, adminOnly, async (req, res) => {
   try {
     const { status } = req.query;
-    const filter = status && status !== 'all' ? { status } : {};
-    const payments = await Payment.find(filter).sort({ createdAt: -1 });
+    const filter = status && status !== "all" ? { status } : {};
+    const payments = await Payment.find(filter)
+      .select("-giftCardImage -giftCardImageMime") // exclude base64 from list view
+      .sort({ createdAt: -1 });
     res.json(payments);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+  } catch (e) {
+    console.error("[payments/all]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
-// PUT /api/payments/:id/review  — admin approves or rejects
-router.put('/:id/review', protect, adminOnly, async (req, res) => {
+// GET /api/payments/:id — full single payment including image
+router.get("/:id", protect, adminOnly, async (req, res) => {
+  try {
+    const payment = await Payment.findById(req.params.id);
+    if (!payment) return res.status(404).json({ message: "Not found" });
+    res.json(payment);
+  } catch (e) {
+    console.error("[payments/:id]", e.message);
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// PUT /api/payments/:id/review — approve or reject
+router.put("/:id/review", protect, adminOnly, async (req, res) => {
   try {
     const { status, adminNote } = req.body;
-    if (!['approved', 'rejected'].includes(status)) {
-      return res.status(400).json({ message: 'Status must be approved or rejected' });
+    if (!["approved", "rejected"].includes(status)) {
+      return res
+        .status(400)
+        .json({ message: "Status must be approved or rejected" });
     }
 
     const payment = await Payment.findByIdAndUpdate(
@@ -114,60 +179,60 @@ router.put('/:id/review', protect, adminOnly, async (req, res) => {
       {
         $set: {
           status,
-          adminNote: adminNote || '',
+          adminNote: adminNote || "",
           reviewedAt: new Date(),
           reviewedBy: req.user._id,
         },
       },
-      { new: true }
-    );
+      { new: true },
+    ).select("-giftCardImage -giftCardImageMime");
 
-    if (!payment) return res.status(404).json({ message: 'Payment not found' });
+    if (!payment) return res.status(404).json({ message: "Payment not found" });
 
-    // If approved, activate the user's membership
-    if (status === 'approved') {
+    if (status === "approved") {
       await User.findByIdAndUpdate(payment.userId, { membershipActive: true });
     }
 
     res.json(payment);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+  } catch (e) {
+    console.error("[payments/review]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
-// ── ADMIN: Wallet settings ────────────────────────────────
+// ── ADMIN: wallet settings ────────────────────────────────
 
-// GET /api/payments/admin/settings  — all settings
-router.get('/admin/settings', protect, adminOnly, async (req, res) => {
+// GET /api/payments/admin/settings
+router.get("/admin/settings", protect, adminOnly, async (req, res) => {
   try {
     const settings = await Setting.find();
     const map = {};
-    settings.forEach(s => { map[s.key] = s.value; });
+    settings.forEach((s) => {
+      map[s.key] = s.value;
+    });
     res.json(map);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+  } catch (e) {
+    console.error("[payments/admin/settings]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
-// PUT /api/payments/admin/settings  — update wallet addresses etc.
-router.put('/admin/settings', protect, adminOnly, async (req, res) => {
+// PUT /api/payments/admin/settings
+router.put("/admin/settings", protect, adminOnly, async (req, res) => {
   try {
-    const updates = req.body; // { wallet_btc: '...', wallet_eth: '...', ... }
-    const ops = Object.entries(updates).map(([key, value]) =>
+    const ops = Object.entries(req.body).map(([key, value]) =>
       Setting.findOneAndUpdate(
         { key },
         { $set: { key, value } },
-        { upsert: true, new: true }
-      )
+        { upsert: true, new: true },
+      ),
     );
     await Promise.all(ops);
-    res.json({ message: 'Settings saved' });
-  } catch (e) { res.status(500).json({ message: e.message }); }
+    res.json({ message: "Settings saved" });
+  } catch (e) {
+    console.error("[payments/admin/settings PUT]", e.message);
+    res.status(500).json({ message: e.message });
+  }
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
