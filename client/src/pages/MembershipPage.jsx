@@ -1,8 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import "../styles/membership.css";
 import PaymentModal from "../components/PaymentModal";
+
+const API = import.meta.env.VITE_BACKEND_URL;
 
 /* ── TIER DATA ──────────────────────────────────────────────────────────── */
 const TIERS = [
@@ -333,13 +336,50 @@ function CardBadge({ stars }) {
   );
 }
 
+/* ── LOADING SPINNER ────────────────────────────────────────────────────── */
+function LoadingSpinner() {
+  return (
+    <div className="membership-loading">
+      <div className="mem-spinner">
+        <div className="mem-spinner-circle"></div>
+        <div className="mem-spinner-circle"></div>
+        <div className="mem-spinner-circle"></div>
+      </div>
+      <p className="mem-spinner-text">Loading membership options...</p>
+    </div>
+  );
+}
+
 /* ── MAIN COMPONENT ─────────────────────────────────────────────────────── */
 export default function MembershipPage() {
   const [active, setActive] = useState(1); // start on Gold (index 1)
   const [paymentTier, setPaymentTier] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [dynamicContent, setDynamicContent] = useState({});
   const trackRef = useRef(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Fetch dynamic content from admin
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await axios.get(`${API}/api/content`);
+        const map = {};
+        res.data.forEach((c) => {
+          map[c.section] = c;
+        });
+        setDynamicContent(map);
+      } catch (err) {
+        console.error("Failed to load membership content:", err);
+      } finally {
+        // Short delay for smoother transition
+        setTimeout(() => setLoading(false), 300);
+      }
+    };
+
+    fetchContent();
+  }, []);
 
   const goTo = (idx) => {
     if (idx < 0 || idx > TIERS.length - 1) return;
@@ -365,6 +405,12 @@ export default function MembershipPage() {
   const iconColor =
     active === 0 ? "#C8C8C8" : active === 1 ? "#C9A84C" : "#E8C97A";
 
+  // Get dynamic header content if available
+  const headerContent = dynamicContent.membership_page || {};
+  const pageTitle = headerContent.heading || "Choose Your Membership";
+  const pageSubtitle = headerContent.subheading || 
+    "Every tier directly funds equal rights, child protection, and climate action. Select the level that matches your commitment.";
+
   const handlePurchase = () => {
     if (!user) {
       navigate("/login");
@@ -373,20 +419,22 @@ export default function MembershipPage() {
     }
   };
 
+  // Show loading spinner while fetching content
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="membership-page">
       {/* ── HEADER ─────────────────────────────────────── */}
       <header className="mem-header">
         <p className="mem-eyebrow">Alex Sterling Foundation</p>
         <h1 className="mem-title">
-          Choose Your
+          {pageTitle.split('<br>')[0]}
           <br />
-          <em>Membership</em>
+          <em>{pageTitle.split('<br>')[1] || pageTitle.split(' ').slice(-1)[0]}</em>
         </h1>
-        <p className="mem-subtitle">
-          Every tier directly funds equal rights, child protection, and climate
-          action. Select the level that matches your commitment.
-        </p>
+        <p className="mem-subtitle">{pageSubtitle}</p>
       </header>
 
       {/* ── CARD CAROUSEL ──────────────────────────────── */}

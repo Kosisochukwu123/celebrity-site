@@ -73,6 +73,11 @@ export default function Home() {
   const h = content["hero"] || {};
   const a = content["about"] || {};
   const q = content["quote"] || {};
+  
+  // Get hero name from content or use defaults
+  const heroFirstName = h.heading || "Alex";
+  const heroLastName = h.subheading || "Sterling";
+  const heroFullName = `${heroFirstName} ${heroLastName}`;
 
   // Merge API content into each cause
   const causes = DEFAULT_CAUSES.map((cause) => ({
@@ -104,9 +109,9 @@ export default function Home() {
         <div className="hero-content">
           <span className="hero-eyebrow">Actor · Activist · Advocate</span>
           <h1 className="hero-name">
-            {h.heading || "Alex"}
+            {heroFirstName}
             <br />
-            <span>{h.subheading || "Sterling"}</span>
+            <span>{heroLastName}</span>
           </h1>
           <p className="hero-tagline">
             {h.body ||
@@ -297,7 +302,7 @@ export default function Home() {
 
       {/* ── FOOTER ───────────────────────────────────── */}
       <footer className="site-footer">
-        <span className="site-footer-logo">ALEX STERLING</span>
+        <span className="site-footer-logo">{heroFullName}</span>
         <div className="site-footer-links">
           {["Privacy", "Terms", "Press", "Contact"].map((l) => (
             <a key={l} href="#">
@@ -306,7 +311,7 @@ export default function Home() {
           ))}
         </div>
         <span className="site-footer-copy">
-          © 2025 Alex Sterling Foundation
+          © 2025 {heroFullName} Foundation
         </span>
       </footer>
 
