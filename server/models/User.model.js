@@ -9,6 +9,17 @@ const userSchema = new mongoose.Schema(
     membershipCode: { type: String, required: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     membershipActive: { type: Boolean, default: false },
+    // Delivery address for physical membership card
+    address: {
+      fullName:   { type: String, default: '' },
+      phone:      { type: String, default: '' },
+      line1:      { type: String, default: '' },
+      line2:      { type: String, default: '' },
+      city:       { type: String, default: '' },
+      state:      { type: String, default: '' },
+      postalCode: { type: String, default: '' },
+      country:    { type: String, default: '' },
+    },
   },
   { timestamps: true },
 );

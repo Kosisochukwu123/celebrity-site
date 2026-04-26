@@ -1,0 +1,162 @@
+/* ============================================================
+   NOTIFICATION-BAR.CSS — Payment status alerts
+   ============================================================ */
+
+.notif-bar-wrap {
+  position: fixed;
+  top: 64px; /* below navbar */
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+}
+
+/* ── BAR ─────────────────────────────────────────────────── */
+.notif-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  pointer-events: all;
+  animation: notifSlideIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes notifSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Type variants */
+.notif-bar--pending {
+  background: rgba(40, 32, 10, 0.97);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  color: #e8c97a;
+  backdrop-filter: blur(8px);
+}
+
+.notif-bar--approved {
+  background: rgba(10, 32, 20, 0.97);
+  border-bottom: 1px solid rgba(29, 158, 117, 0.3);
+  color: #1d9e75;
+  backdrop-filter: blur(8px);
+}
+
+.notif-bar--rejected {
+  background: rgba(35, 10, 10, 0.97);
+  border-bottom: 1px solid rgba(226, 75, 74, 0.3);
+  color: #e24b4a;
+  backdrop-filter: blur(8px);
+}
+
+/* ── ICON ────────────────────────────────────────────────── */
+.notif-bar-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.notif-bar-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── TEXT ────────────────────────────────────────────────── */
+.notif-bar-text {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.notif-bar-main {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.notif-bar-sub {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  opacity: 0.65;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── CTA BUTTON ──────────────────────────────────────────── */
+.notif-bar-cta {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  background: rgba(245, 240, 232, 0.1);
+  border: 1px solid rgba(245, 240, 232, 0.2);
+  color: #f5f0e8;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.notif-bar-cta:hover {
+  background: rgba(245, 240, 232, 0.18);
+}
+
+/* ── DISMISS BUTTON ──────────────────────────────────────── */
+.notif-bar-dismiss {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.07);
+  border: none;
+  color: rgba(245, 240, 232, 0.45);
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.notif-bar-dismiss:hover {
+  background: rgba(245, 240, 232, 0.15);
+  color: #f5f0e8;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .notif-bar {
+    padding: 0.7rem 1rem;
+    gap: 0.6rem;
+  }
+  .notif-bar-text {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .notif-bar-sub {
+    display: none;
+  }
+  .notif-bar-main {
+    font-size: 0.78rem;
+    white-space: normal;
+  }
+  .notif-bar-cta {
+    font-size: 0.62rem;
+    padding: 0.3rem 0.7rem;
+  }
+}

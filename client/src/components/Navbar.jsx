@@ -29,6 +29,7 @@ export default function Navbar() {
       <Link to="/membership" className={`navbar-link ${isActive('/membership')}`}>Membership</Link>
       <a href="/#causes"     className="navbar-link">Causes</a>
       {user && <Link to="/members" className={`navbar-link ${isActive('/members')}`}>Members</Link>}
+      {user && <Link to="/settings" className={`navbar-link ${isActive('/settings')}`}>Settings</Link>}
       {user?.role === 'admin' && <Link to="/admin" className={`navbar-link ${isActive('/admin')}`}>Admin</Link>}
     </>
   );

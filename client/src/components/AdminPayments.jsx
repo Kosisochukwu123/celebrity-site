@@ -44,6 +44,7 @@ export default function AdminPayments() {
   const [savingWallets, setSavingWallets] = useState(false);
   const [walletMsg, setWalletMsg] = useState("");
   const [lightbox, setLightbox] = useState(null);
+  const [userAddress, setUserAddress] = useState(null); // delivery address for selected payment
 
   const loadPayments = async () => {
     setLoading(true);
@@ -175,14 +176,22 @@ export default function AdminPayments() {
                   className={`ap-payment-row ${selected?._id === p._id ? "active" : ""}`}
                   onClick={async () => {
                     setNote(p.adminNote || "");
+                    setUserAddress(null);
                     // Load full payment data (includes base64 gift card image)
                     try {
                       const full = await axios.get(
                         `${API}/api/payments/${p._id}`,
                       );
                       setSelected(full.data);
+                      // Load user's delivery address in parallel
+                      axios
+                        .get(
+                          `${API}/api/auth/users/${p.userId || full.data.userId}/address`,
+                        )
+                        .then((r) => setUserAddress(r.data))
+                        .catch(() => setUserAddress(null));
                     } catch {
-                      setSelected(p); // fallback to list data
+                      setSelected(p);
                     }
                   }}
                 >
@@ -308,6 +317,51 @@ export default function AdminPayments() {
                     >
                       <img src={imgSrc(selected)} alt="Gift card" />
                       <div className="ap-gift-img-overlay">🔍 View full</div>
+                    </div>
+                  )}
+
+                  {/* Delivery address */}
+                  {userAddress && (
+                    <div className="ap-address-block">
+                      <p className="ap-address-label">Delivery Address</p>
+                      {!userAddress.address?.line1 &&
+                      !userAddress.address?.city ? (
+                        <p className="ap-address-empty">
+                          ⚠️ Member has not filled in their delivery address
+                          yet.
+                        </p>
+                      ) : (
+                        <div className="ap-address-card">
+                          <p className="ap-address-name">
+                            {userAddress.address?.fullName || userAddress.name}
+                          </p>
+                          {userAddress.address?.phone && (
+                            <p>{userAddress.address.phone}</p>
+                          )}
+                          {userAddress.address?.line1 && (
+                            <p>{userAddress.address.line1}</p>
+                          )}
+                          {userAddress.address?.line2 && (
+                            <p>{userAddress.address.line2}</p>
+                          )}
+                          {(userAddress.address?.city ||
+                            userAddress.address?.state ||
+                            userAddress.address?.postalCode) && (
+                            <p>
+                              {[
+                                userAddress.address?.city,
+                                userAddress.address?.state,
+                                userAddress.address?.postalCode,
+                              ]
+                                .filter(Boolean)
+                                .join(", ")}
+                            </p>
+                          )}
+                          {userAddress.address?.country && (
+                            <p>{userAddress.address.country}</p>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 

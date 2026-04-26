@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import "../styles/private-gallery.css";
 
-const API = "http://localhost:5000";
-const imgSrc = (url) =>
-  !url ? "" : url.startsWith("http") ? url : `${API}${url}`;
+const API = import.meta.env.VITE_BACKEND_URL;
+// Gallery images are data URIs (base64) — return as-is, no prefix needed
+const imgSrc = (url) => url || '';
 
 /* ── Masonry-style layout groups ──────────────────────────── */
 function chunkIntoRows(images) {
@@ -109,7 +109,7 @@ export default function PrivateGallery() {
 
   useEffect(() => {
     axios
-      .get("/api/gallery")
+      .get(`${API}/api/gallery`)
       .then((res) => setImages(res.data))
       .catch(() => setImages([]))
       .finally(() => setLoading(false));

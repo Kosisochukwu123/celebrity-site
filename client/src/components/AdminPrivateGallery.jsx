@@ -3,8 +3,7 @@ import axios from "axios";
 import "../styles/admin-private-gallery.css";
 
 const API = import.meta.env.VITE_BACKEND_URL;
-const imgSrc = (url) =>
-  !url ? "" : url.startsWith("http") ? url : `${API}${url}`;
+const imgSrc = (url) => url || '';
 
 export default function AdminPrivateGallery() {
   const [images, setImages] = useState([]);

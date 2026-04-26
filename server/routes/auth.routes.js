@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const MemberCode = require("../models/MemberCode.model");
 const { protect } = require("../middleware/auth.middleware");
+const { adminOnly } = require("../middleware/admin.middleware");
 
 // console.log("AUTH ROUTES LOADED");
 
@@ -91,6 +92,48 @@ router.post("/login", async (req, res) => {
 // GET /api/auth/me
 router.get("/me", protect, (req, res) => {
   res.json({ user: req.user });
+});
+
+// GET /api/auth/address
+router.get('/address', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('address name email');
+    res.json(user.address || {});
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// PUT /api/auth/address
+router.put('/address', protect, async (req, res) => {
+  try {
+    const allowed = ['fullName','phone','line1','line2','city','state','postalCode','country'];
+    const update = {};
+    allowed.forEach(f => { if (req.body[f] !== undefined) update[`address.${f}`] = req.body[f]; });
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $set: update },
+      { new: true }
+    ).select('address');
+    res.json(user.address);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// GET /api/auth/users — admin: list all users with address + membership info
+router.get('/users', protect, adminOnly, async (req, res) => {
+  try {
+    const users = await User.find()
+      .select('name email role membershipActive address createdAt')
+      .sort({ createdAt: -1 });
+    res.json(users);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// GET /api/auth/users/:id/address — admin: get one user's delivery address
+router.get('/users/:id/address', protect, adminOnly, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('name email address membershipActive');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 module.exports = router;

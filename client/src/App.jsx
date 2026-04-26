@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import ChatWidget from "./components/ChatWidget";
+import NotificationBar from "./components/Notificationbar";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,19 +11,19 @@ import Register from "./pages/Register";
 import MembersArea from "./pages/MembersArea";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import MembershipPage from "./pages/MembershipPage";
-import CausePage from './pages/CausePage';
+import CausePage from "./pages/CausePage";
 import EventBoard from "./pages/EventBoard";
 import AdminEventManager from "./components/AdminEventManager";
-import PrivateGallery from "./components/PrivateGallery"
+import PrivateGallery from "./components/PrivateGallery";
 import AdminPrivateGallery from "./components/AdminPrivateGallery";
-
-
+import UserSettings from "./pages/UserSettings";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
+        <NotificationBar />
         <ChatWidget />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -31,7 +32,15 @@ function App() {
           <Route path="/membership" element={<MembershipPage />} />
           <Route path="/cause/:id" element={<CausePage />} />
           <Route path="/membership/events" element={<EventBoard />} />
-          <Route path="/membership/gallery" element={<PrivateGallery/>} />
+          <Route path="/membership/gallery" element={<PrivateGallery />} />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <UserSettings />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/events"
             element={
@@ -64,7 +73,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>
