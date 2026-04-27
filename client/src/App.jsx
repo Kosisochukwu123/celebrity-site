@@ -17,12 +17,14 @@ import AdminEventManager from "./components/AdminEventManager";
 import PrivateGallery from "./components/PrivateGallery";
 import AdminPrivateGallery from "./components/AdminPrivateGallery";
 import UserSettings from "./pages/UserSettings";
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
+        <ScrollToTop/>
         <NotificationBar />
         <ChatWidget />
         <Routes>
