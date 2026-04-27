@@ -43,6 +43,14 @@ const SECTIONS = [
 
 const API = import.meta.env.VITE_BACKEND_URL;
 
+// Resolve image URLs for all storage types
+function imgSrc(url) {
+  if (!url) return null;
+  if (url.startsWith('data:')) return url;   // base64 data URI — use as-is
+  if (url.startsWith('http'))  return url;   // absolute URL — use as-is
+  return `${API}${url}`;                     // legacy /uploads/ path
+}
+
 export default function AdminPanel() {
   const [tab, setTab] = useState("content");
   const [section, setSection] = useState(SECTIONS[0].id);
@@ -70,7 +78,7 @@ export default function AdminPanel() {
           subheading: res.data.subheading || "",
           body: res.data.body || "",
         });
-        if (res.data.imageUrl) setPreview(res.data.imageUrl);
+        if (res.data.imageUrl) setPreview(imgSrc(res.data.imageUrl));
       })
       .catch(() => setForm({ heading: "", subheading: "", body: "" }));
   }, [section]);
@@ -96,6 +104,9 @@ export default function AdminPanel() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMsg({ type: "success", text: "Changes saved successfully." });
+      // Refresh preview after save
+      const res = await axios.get(`${API}/api/content/${section}`);
+      if (res.data.imageUrl) setPreview(imgSrc(res.data.imageUrl));
     } catch {
       setMsg({ type: "error", text: "Failed to save. Please try again." });
     } finally {
@@ -214,7 +225,7 @@ export default function AdminPanel() {
                     <label className="admin-label">Section Image</label>
                     {preview && (
                       <div className="admin-image-preview">
-                        <img src={preview} alt="" />
+                        <img src={preview} alt="Preview" />
                       </div>
                     )}
                     <input

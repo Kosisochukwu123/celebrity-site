@@ -16,6 +16,7 @@ import EventBoard from "./pages/EventBoard";
 import AdminEventManager from "./components/AdminEventManager";
 import PrivateGallery from "./components/PrivateGallery";
 import AdminPrivateGallery from "./components/AdminPrivateGallery";
+import ImpactReport from "./pages/ImpactReport";
 import UserSettings from "./pages/UserSettings";
 import ScrollToTop from './components/ScrollToTop';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/cause/:id" element={<CausePage />} />
           <Route path="/membership/events" element={<EventBoard />} />
           <Route path="/membership/gallery" element={<PrivateGallery />} />
+          <Route path="/membership/impact" element={<ImpactReport/>} />
           <Route
             path="/settings"
             element={

@@ -9,8 +9,9 @@ const API = import.meta.env.VITE_BACKEND_URL;
 // even if the Vite proxy isn't running
 function imgSrc(url) {
   if (!url) return null;
-  if (url.startsWith("http")) return url;
-  return `${API}${url}`;
+  if (url.startsWith("data:")) return url; // base64 data URI — use as-is
+  if (url.startsWith("http")) return url; // absolute URL — use as-is
+  return `${API}${url}`; // legacy /uploads/ path
 }
 
 const DEFAULT_CAUSES = [
@@ -73,7 +74,7 @@ export default function Home() {
   const h = content["hero"] || {};
   const a = content["about"] || {};
   const q = content["quote"] || {};
-  
+
   // Get hero name from content or use defaults
   const heroFirstName = h.heading || "Alex";
   const heroLastName = h.subheading || "Sterling";

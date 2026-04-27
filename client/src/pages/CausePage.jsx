@@ -3,12 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/cause-page.css";
 
-const API = import.meta.env.VITE_BACKEND_URL ;
+const API = import.meta.env.VITE_BACKEND_URL;
 
-
-
-const imgSrc = (url) =>
-  !url ? null : url.startsWith("http") ? url : `${API}${url}`;
+const imgSrc = (url) => {
+  if (!url) return null;
+  if (url.startsWith("data:")) return url; // base64 data URI — use as-is
+  if (url.startsWith("http")) return url; // absolute URL — use as-is
+  return `${API}${url}`; // legacy /uploads/ path
+};
 
 /* ── Static cause content ─────────────────────────────────── */
 const CAUSE_DATA = {
@@ -169,7 +171,6 @@ On the policy front, our team has secured binding net-zero commitments from 12 m
     ],
   },
 };
-
 
 export default function CausePage() {
   const { id } = useParams(); // "1", "2", or "3"
@@ -457,7 +458,6 @@ export default function CausePage() {
           </button>
         </div>
       )}
-      
     </div>
   );
 }
