@@ -994,3 +994,29 @@
   .cause-card-content { padding: 1.4rem 1.5rem 1.8rem; }
   .cause-card-title { font-size: 1.2rem; }
 }
+/* Ensure CachedImage fills the cause-card-image container */
+.cause-card-image .ci-wrapper,
+.cause-card-image .ci-wrapper img,
+.cause-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* For the impact section */
+.impact-image .ci-wrapper,
+.impact-image .ci-wrapper img,
+.impact-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* For the modal */
+.cause-modal-image .ci-wrapper,
+.cause-modal-image .ci-wrapper img,
+.cause-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

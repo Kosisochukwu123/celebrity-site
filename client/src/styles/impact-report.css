@@ -1,0 +1,640 @@
+/* ============================================================
+   IMPACT-REPORT.CSS — Annual Impact Report page
+   ============================================================ */
+
+.ir-page {
+  min-height: 100vh;
+  background: #1a1714;
+  color: #f5f0e8;
+  overflow-x: hidden;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.ir-hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.ir-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(26, 23, 20, 1) 0%,
+      rgba(26, 23, 20, 0.4) 60%,
+      transparent 100%
+    ),
+    linear-gradient(to right, rgba(26, 23, 20, 0.7) 0%, transparent 60%);
+}
+
+.ir-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 4rem 4rem;
+  max-width: 760px;
+}
+
+.ir-eyebrow {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #c0152a;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.ir-hero-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+  color: #f5f0e8;
+}
+.ir-hero-title em {
+  font-style: italic;
+  color: #c0152a;
+}
+
+/* Year tabs */
+.ir-year-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ir-year-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(245, 240, 232, 0.06);
+  border: 1px solid rgba(245, 240, 232, 0.15);
+  color: rgba(245, 240, 232, 0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ir-year-tab:hover {
+  border-color: rgba(245, 240, 232, 0.3);
+  color: rgba(245, 240, 232, 0.85);
+}
+.ir-year-tab.active {
+  background: #c0152a;
+  border-color: #c0152a;
+  color: #fff;
+}
+
+.ir-year-tag {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.12rem 0.45rem;
+  border-radius: 2px;
+}
+
+/* ── REPORT HEADER ───────────────────────────────────────── */
+.ir-report-header {
+  padding: 4rem 4rem 3rem;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.07);
+  background: #2e2a26;
+}
+
+.ir-report-year-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #c0152a;
+  margin-bottom: 0.8rem;
+}
+
+.ir-report-headline {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #f5f0e8;
+  margin-bottom: 1rem;
+  max-width: 720px;
+}
+
+.ir-report-summary {
+  font-family: "Barlow", sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.52);
+  max-width: 680px;
+}
+
+/* ── STATS BAR ───────────────────────────────────────────── */
+.ir-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #1a1714;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.07);
+}
+
+.ir-stat {
+  padding: 2rem;
+  border-right: 1px solid rgba(245, 240, 232, 0.07);
+  text-align: center;
+}
+.ir-stat:last-child {
+  border-right: none;
+}
+
+.ir-stat-value {
+  font-family: "Playfair Display", serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.ir-stat-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.38);
+  margin-bottom: 0.5rem;
+}
+
+.ir-stat-change {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.ir-stat-change.up {
+  color: #1d9e75;
+}
+.ir-stat-change.down {
+  color: #e24b4a;
+}
+
+/* ── CONTAINER ───────────────────────────────────────────── */
+.ir-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+/* ── CAUSE SECTION ───────────────────────────────────────── */
+.ir-cause-section {
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.07);
+}
+
+.ir-cause-section--alt {
+  background: rgba(46, 42, 38, 0.3);
+}
+.ir-cause-section--alt .ir-cause-inner {
+  flex-direction: row-reverse;
+}
+
+.ir-cause-inner {
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+/* Left column */
+.ir-cause-left {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ir-cause-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.ir-cause-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* Spend card */
+.ir-spend-card {
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  padding: 1.2rem;
+}
+
+.ir-spend-amount {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin-bottom: 0.2rem;
+}
+
+.ir-spend-label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 0.8rem;
+}
+
+.ir-spend-bar {
+  height: 4px;
+  background: rgba(245, 240, 232, 0.08);
+  border-radius: 2px;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+}
+
+.ir-spend-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+.ir-spend-pct {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(245, 240, 232, 0.3);
+}
+
+/* Quote */
+.ir-cause-quote {
+  border-left: 2px solid;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.ir-cause-quote p {
+  font-family: "Playfair Display", serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: rgba(245, 240, 232, 0.6);
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+
+.ir-cause-quote cite {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  font-style: normal;
+}
+
+/* Right column */
+.ir-cause-right {
+  flex: 1;
+}
+
+.ir-highlights-title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.ir-highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ir-highlight-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+  font-family: "Barlow", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(245, 240, 232, 0.7);
+}
+.ir-highlight-item:first-child {
+  padding-top: 0;
+}
+.ir-highlight-item:last-child {
+  border-bottom: none;
+}
+
+.ir-highlight-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.52rem;
+}
+
+/* ── SECTION HEADING ─────────────────────────────────────── */
+.ir-section-heading {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #f5f0e8;
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.ir-section-heading::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: #c0152a;
+}
+
+/* ── FINANCIALS ──────────────────────────────────────────── */
+.ir-financials {
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.07);
+}
+
+.ir-financials-sub {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.92rem;
+  color: rgba(245, 240, 232, 0.42);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 3rem;
+}
+
+.ir-financials-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* Bar chart */
+.ir-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ir-bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 48px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.ir-bar-label {
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.65);
+  text-align: right;
+}
+
+.ir-bar-track {
+  height: 8px;
+  background: rgba(245, 240, 232, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ir-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ir-bar-pct {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.45);
+}
+
+/* Donut chart */
+.ir-donut-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ir-donut {
+  width: 200px;
+  height: 200px;
+}
+
+.ir-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.ir-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(245, 240, 232, 0.55);
+}
+
+.ir-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── CLOSING SECTION ─────────────────────────────────────── */
+.ir-closing {
+  padding: 5rem 0 6rem;
+  text-align: center;
+  position: relative;
+}
+
+.ir-closing-quote-mark {
+  font-family: "Playfair Display", serif;
+  font-size: 10rem;
+  font-weight: 900;
+  color: rgba(192, 21, 42, 0.08);
+  line-height: 0.6;
+  margin-bottom: 1rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.ir-closing-text {
+  font-family: "Barlow", sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.55);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.ir-closing-sig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 2.5rem;
+}
+
+.ir-sig-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  font-style: italic;
+}
+
+.ir-sig-title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.28);
+}
+
+.ir-closing-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .ir-financials-grid {
+    grid-template-columns: 1fr;
+  }
+  .ir-donut-wrap {
+    flex-direction: row;
+    align-items: center;
+  }
+  .ir-donut {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 860px) {
+  .ir-hero-content {
+    padding: 0 2rem 3rem;
+  }
+  .ir-report-header {
+    padding: 3rem 2rem 2.5rem;
+  }
+  .ir-container {
+    padding: 0 2rem;
+  }
+  .ir-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ir-stat:nth-child(2) {
+    border-right: none;
+  }
+  .ir-stat:nth-child(3) {
+    border-right: 1px solid rgba(245, 240, 232, 0.07);
+    border-top: 1px solid rgba(245, 240, 232, 0.07);
+  }
+  .ir-stat:nth-child(4) {
+    border-top: 1px solid rgba(245, 240, 232, 0.07);
+  }
+  .ir-cause-inner {
+    flex-direction: column !important;
+    gap: 2rem;
+  }
+  .ir-cause-left {
+    flex: none;
+    width: 100%;
+  }
+  .ir-bar-row {
+    grid-template-columns: 120px 1fr 40px;
+  }
+  .ir-donut-wrap {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .ir-hero-content {
+    padding: 0 1.5rem 2.5rem;
+  }
+  .ir-hero-title {
+    font-size: 2.5rem;
+  }
+  .ir-report-header {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+  .ir-container {
+    padding: 0 1.5rem;
+  }
+  .ir-stats-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ir-stat {
+    padding: 1.4rem 1rem;
+  }
+  .ir-stat-value {
+    font-size: 1.8rem;
+  }
+  .ir-cause-section {
+    padding: 3.5rem 0;
+  }
+  .ir-financials {
+    padding: 3.5rem 0;
+  }
+  .ir-bar-row {
+    grid-template-columns: 100px 1fr 36px;
+  }
+  .ir-bar-label {
+    font-size: 0.75rem;
+  }
+  .ir-closing {
+    padding: 3.5rem 0 5rem;
+  }
+  .ir-closing-actions {
+    flex-direction: column;
+  }
+  .ir-closing-actions .btn {
+    text-align: center;
+  }
+}

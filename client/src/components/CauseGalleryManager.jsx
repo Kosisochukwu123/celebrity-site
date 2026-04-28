@@ -3,8 +3,7 @@ import axios from "axios";
 import "../styles/gallery-manager.css";
 
 const API = import.meta.env.VITE_BACKEND_URL;
-const imgSrc = (url) =>
-  !url ? "" : url.startsWith("http") ? url : `${API}${url}`;
+const imgSrc = (url) => url || '';
 
 const CAUSES = [
   { id: "cause_1", label: "Cause 1 — Equal Rights" },

@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CachedImage from "../components/CachedImage"; // Import the cached image component
+import { pruneCache } from "../services/imageCache"; // Import cache pruning
 import "../styles/home.css";
 
 const API = import.meta.env.VITE_BACKEND_URL;
 
 // Helper — prefix image URLs with the API base so they always resolve
-// even if the Vite proxy isn't running
 function imgSrc(url) {
   if (!url) return null;
-  if (url.startsWith("data:")) return url; // base64 data URI — use as-is
-  if (url.startsWith("http")) return url; // absolute URL — use as-is
-  return `${API}${url}`; // legacy /uploads/ path
+  if (url.startsWith("data:")) return url;
+  if (url.startsWith("http")) return url;
+  return `${API}${url}`;
 }
 
 const DEFAULT_CAUSES = [
@@ -46,8 +47,13 @@ const DEFAULT_CAUSES = [
 
 export default function Home() {
   const [content, setContent] = useState({});
-  const [activeCause, setActiveCause] = useState(null); // modal state
+  const [activeCause, setActiveCause] = useState(null);
   const navigate = useNavigate();
+
+  // Cache pruning on component mount
+  useEffect(() => {
+    pruneCache().catch(console.warn);
+  }, []);
 
   useEffect(() => {
     axios
@@ -62,7 +68,6 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
-  // Close modal on Escape key
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") setActiveCause(null);
@@ -75,12 +80,10 @@ export default function Home() {
   const a = content["about"] || {};
   const q = content["quote"] || {};
 
-  // Get hero name from content or use defaults
   const heroFirstName = h.heading || "Alex";
   const heroLastName = h.subheading || "Sterling";
   const heroFullName = `${heroFirstName} ${heroLastName}`;
 
-  // Merge API content into each cause
   const causes = DEFAULT_CAUSES.map((cause) => ({
     ...cause,
     ...(content[cause.id]
@@ -101,6 +104,13 @@ export default function Home() {
     setActiveCause(null);
     document.body.style.overflow = "";
   };
+
+  const footerLinks = [
+    { name: "Privacy", url: "/privacy" },
+    { name: "Terms", url: "/terms" },
+    { name: "Press", url: "/press" },
+    { name: "Contact", url: "/contact" },
+  ];
 
   return (
     <main className="home-page">
@@ -197,10 +207,14 @@ export default function Home() {
         <div className="causes-grid">
           {causes.map((cause) => (
             <div key={cause.num} className="cause-card">
-              {/* Image area */}
+              {/* Image area - NOW USING CachedImage */}
               <div className="cause-card-image">
                 {cause.image ? (
-                  <img src={cause.image} alt={cause.title} />
+                  <CachedImage 
+                    src={cause.image} 
+                    alt={cause.title}
+                    className="cause-card-img"
+                  />
                 ) : (
                   <div className="cause-card-image-placeholder">
                     <span>{cause.num}</span>
@@ -242,7 +256,11 @@ export default function Home() {
       <section className="impact-section" id="impact">
         <div className="impact-image">
           {a.imageUrl ? (
-            <img src={imgSrc(a.imageUrl)} alt="Impact" />
+            <CachedImage 
+              src={imgSrc(a.imageUrl)} 
+              alt="Impact"
+              className="impact-img"
+            />
           ) : (
             <div className="impact-image-placeholder" />
           )}
@@ -305,9 +323,9 @@ export default function Home() {
       <footer className="site-footer">
         <span className="site-footer-logo">{heroFullName}</span>
         <div className="site-footer-links">
-          {["Privacy", "Terms", "Press", "Contact"].map((l) => (
-            <a key={l} href="#">
-              {l}
+          {footerLinks.map((Link) => (
+            <a key={Link.name} href={Link.url}>
+              {Link.name}
             </a>
           ))}
         </div>
@@ -326,7 +344,11 @@ export default function Home() {
 
             {activeCause.image && (
               <div className="cause-modal-image">
-                <img src={activeCause.image} alt={activeCause.title} />
+                <CachedImage 
+                  src={activeCause.image} 
+                  alt={activeCause.title}
+                  className="cause-modal-img"
+                />
               </div>
             )}
 

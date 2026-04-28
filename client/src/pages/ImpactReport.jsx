@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import '../styles/impact-report.css';
+import '../styles/impact-report.css';
 
 const REPORTS = [
   {

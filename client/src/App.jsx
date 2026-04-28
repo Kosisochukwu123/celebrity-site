@@ -18,14 +18,21 @@ import PrivateGallery from "./components/PrivateGallery";
 import AdminPrivateGallery from "./components/AdminPrivateGallery";
 import ImpactReport from "./pages/ImpactReport";
 import UserSettings from "./pages/UserSettings";
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from "./components/ScrollToTop";
+// import LuxuryScroll from "./components/LuxuryScroll";
+
+import Contact from "./pages/FooterLinks/Contact";
+import Press from "./pages/FooterLinks/Press";
+import Privacy from "./pages/FooterLinks/Privacy";
+import Terms from "./pages/FooterLinks/Terms";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        {/* <LuxuryScroll/> */}
         <Navbar />
-        <ScrollToTop/>
+        <ScrollToTop />
         <NotificationBar />
         <ChatWidget />
         <Routes>
@@ -36,7 +43,13 @@ function App() {
           <Route path="/cause/:id" element={<CausePage />} />
           <Route path="/membership/events" element={<EventBoard />} />
           <Route path="/membership/gallery" element={<PrivateGallery />} />
-          <Route path="/membership/impact" element={<ImpactReport/>} />
+          <Route path="/membership/impact" element={<ImpactReport />} />
+
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+
           <Route
             path="/settings"
             element={
